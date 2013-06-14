@@ -21,4 +21,31 @@ if( ! defined(FLAGSHIP_CSS_PATH) )
 	define(FLAGSHIP_CSS_PATH, FLAGSHIP_URL_PATH . 'css');
 if( ! defined(FLAGSHIP_JS_PATH) )
 	define(FLAGSHIP_JS_PATH, FLAGSHIP_URL_PATH . 'js');
+
+require(FLAGSHIP_INC_PATH . '/template.handler.php');
+
+class Flagship {
+	protected static $theme_options = array();
+	protected static $theme_zones 	= array();
+	
+	/**
+	 * Grabs our theme variables from database, populates class variables.
+	 */
+	public static function launch_theme() {
+		self::$theme_options = get_option('flagship');
+		self::$theme_zones = self::$theme_options['zones'];
+	}
+	
+	/**
+	 * Class function to retrieve variables for a zone.
+	 */
+	public static function zone_variables($zone, $variable) {
+		if( isset(self::$theme_zones[$zone][$variable]) && !empty(self::$theme_zones[$zone][$variable]) )
+			return self::$theme_zones[$zone][$variable];
+		return false;
+	}
+}
+
+
+
 ?>
