@@ -16,13 +16,14 @@ if( ! defined(FLAGSHIP_TPL_PATH) )
 
 //Define our URL paths
 if( ! defined(FLAGSHIP_URL_PATH) )
-	define(FLAGSHIP_URL_PATH,  plugins_url('', __FILE__));
+	define(FLAGSHIP_URL_PATH,  get_template_directory_uri());
 if( ! defined(FLAGSHIP_CSS_PATH) )
-	define(FLAGSHIP_CSS_PATH, FLAGSHIP_URL_PATH . 'css');
+	define(FLAGSHIP_CSS_PATH, FLAGSHIP_URL_PATH . '/css');
 if( ! defined(FLAGSHIP_JS_PATH) )
-	define(FLAGSHIP_JS_PATH, FLAGSHIP_URL_PATH . 'js');
+	define(FLAGSHIP_JS_PATH, FLAGSHIP_URL_PATH . '/js');
 
 require(FLAGSHIP_INC_PATH . '/template.handler.php');
+require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 
 class Flagship {
 	protected static $theme_options = array();

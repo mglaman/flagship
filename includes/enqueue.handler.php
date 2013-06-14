@@ -38,12 +38,12 @@ class EnqueueHandler {
 				'deps'		=> array('jquery'),
 				'ver'		=> '1.2'
 			),
-			'html5shiv.js' => array(
-				'handle'	=> 'html5shiv',
-				'deps'		=> null,
-				'ver'		=> '1.0',
-				'condition' => 'lt IE 9'
-			),
+			//'html5shiv.js' => array(
+			//	'handle'	=> 'html5shiv',
+			//	'deps'		=> null,
+			//	'ver'		=> '1.0',
+			//	'condition' => 'lt IE 9'
+			//),
 			
 		);
 		self::$scripts = $flagship_scripts;
@@ -57,11 +57,11 @@ class EnqueueHandler {
 		
 		//Check if we have our minified stylesheets
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css')) {
-			wp_enqueue_style('/css/flagship.min', FLAGSHIP_CSS_PATH . 'flagship.min.css', false, false);
+			wp_enqueue_style('/css/flagship.min',  FLAGSHIP_CSS_PATH. '/flagship.min.css', false, false);
 		} else {
 			//Try to build minified stylsheets and enqueue them.
 			if(self::build_minified_styles()) {
-				wp_enqueue_style('/css/flagship.min', FLAGSHIP_CSS_PATH . '/flagship.min.css', false, false);
+				wp_enqueue_style('/css/flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, false);
 			} else {
 				//We're having issues, load raw stylesheet files.
 				foreach(self::$styles as $stylesheet => $handle) {
@@ -78,6 +78,10 @@ class EnqueueHandler {
 
 	public static function enqueue_scripts() {
 		global $wp_scripts;
+		
+		if(!isset(self::$scripts) || empty(self::$scripts))
+			self::gather_scripts();
+		
 		foreach(self::$scripts as $javascripts => $args) {
 			wp_enqueue_script($args['handle'], FLAGSHIP_JS_PATH . '/' . $javascripts, $args['deps'], $args['ver']);
 			
@@ -97,9 +101,11 @@ class EnqueueHandler {
 		//Backs out if we have minified CSS and not being overriden
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css') && $force == false)
 			return true;
+		if(!isset(self::$styles) || empty(self::$styles))
+			self::gather_styles();
 		
 		$minified_css = null;
-		foreach(self::$styles as $stylesheet) {
+		foreach(self::$styles as $stylesheet => $args) {
 			//Set current directory path to stylesheet
 			$current_stylesheet = FLAGSHIP_DIR_PATH.'/css/'.$stylesheet;
 			
@@ -114,7 +120,6 @@ class EnqueueHandler {
 		}
 		//Strip out line breaks.
 		$minified_css = str_replace(array("\r\n", "\r", "\n"), '', $minified_css);
-		
 		//Save it.
 		$write_handle = fopen(FLAGSHIP_DIR_PATH.'/css/flagship.min.css', 'w+');
 		if(!fwrite($write_handle, $minified_css))
@@ -157,7 +162,6 @@ function flagship_minify_stylesheets() {
 function flagship_rebuild_minify_stylesheets() {
 	return EnqueueHandler::rebuild_framework_styles();
 }
-
 
 ## add_action and add_filter hooks
 add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_styles') );
