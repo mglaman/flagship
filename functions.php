@@ -10,7 +10,7 @@ define(FLAGSHIP_DEBUG, TRUE);
  
 //Define our directory paths
 if( ! defined(FLAGSHIP_DIR_PATH) )
-	define(FLAGSHIP_DIR_PATH, dirname(__FILE__));
+	define(FLAGSHIP_DIR_PATH, get_template_directory());
 if( ! defined(FLAGSHIP_INC_PATH) )
 	define(FLAGSHIP_INC_PATH, FLAGSHIP_DIR_PATH . '/includes');
 if( ! defined(FLAGSHIP_TPL_PATH) )
@@ -27,15 +27,14 @@ if( ! defined(FLAGSHIP_JS_PATH) )
 require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 
+add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
+
 class Flagship {
 	
 	//Arrays to hold theme options
 	protected static $theme_options = array();
 	protected static $theme_zones 	= array();
-	
-	
-	//Arrays to hold base configuration.
-	protected static $core_zones 	= array();
+	protected static $theme_areas 	= array();
 	
 	//Various template variable storage, direct access for now.
 	public static $current_zone = null;
@@ -44,16 +43,15 @@ class Flagship {
 	 * Grabs our theme variables from database, populates class variables.
 	 */
 	public static function launch_theme() {
-		self::$theme_options = get_option('flagship');
-		self::$core_zones = self::core_zones();
-		self::check_theme_zones_variables();
+		self::load_theme_variables();
+		self::$theme_areas = self::$theme_options['areas'];
+		self::$theme_zones = self::$theme_options['zones'];
 	}
 	
 	/**
 	 * Class function to retrieve variables for a zone.
 	 */
 	public static function zone_variables($zone, $variable) {
-		self::check_theme_zones_variables();
 		
 		if( isset(self::$theme_zones[$zone][$variable]) || !empty(self::$theme_zones[$zone][$variable]) )
 			return self::$theme_zones[$zone][$variable];
@@ -64,13 +62,10 @@ class Flagship {
 	 * Returns array of zones that belong to an area, by set weight
 	 */
 	public static function area_zone_list($area) {
-		if( !isset(self::$core_zones) || empty(self::$core_zones))
-			self::$core_zones = self::core_zones();
-		
 		$area_zone_array = array();
 		$sort_column = array();
 		
-		foreach( self::$core_zones as $zone => $attr ) {
+		foreach( self::$theme_zones as $zone => $attr ) {
 			if($attr['area'] == $area)
 				$area_zone_array[$zone] = $attr;
 		}
@@ -82,148 +77,30 @@ class Flagship {
 		
 		return $area_zone_array;
 	}
+	
+	protected static function load_theme_variables() {
+		$theme_variables = get_option('flagship');
+		
+		//Lets make sure we didn't get an empty response.
+		if(empty($theme_variables)) {
+			$config_path = get_template_directory() . '/config.core.json';
+			
+			//If the child theme has a config, load that instead.
+			if(file_exists(get_stylesheet_directory() . '/config.json') && filesize(get_stylesheet_directory() . '/config.json') > 0)
+				$config_path = get_stylesheet_directory() . '/config.json';
+			
+			//Lets open up that config and build up our zones!
+			$config_handler = fopen($config_path, 'r');
+			$config_data = fread($config_handler, filesize($config_path));
+			fclose($config_handler);
+			$theme_variables = json_decode($config_data, true);
 
-	/**
-	 * Check if we have theme_options['zones'] else load core_zones 
-	 */
-	 protected static function check_theme_zones_variables() {
-	 	if(isset(self::$theme_options['zones']) && !empty(self::$theme_options['zones']))
-			self::$theme_zones = self::$theme_options['zones'];
-		else
-			self::$theme_zones = self::core_zones();
-	 }
-	 
-	/**
-	 * Core config for our zones and where they are assigned.
-	 */
-	protected static function core_zones() {
-		#@TODO: Check if this data saved in options, else use these defaults. Allows better customization
-		$zone_config = array(
-			'top-bar-one' => array(
-				'enabled'	=> true,
-				'weight' 	=> -10,
-				'area'	=> 'header',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '8',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'top-bar-two' => array(
-				'enabled'	=> true,
-				'weight' 	=> -10,
-				'area'	=> 'header',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '8',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'branding' => array(
-				'enabled'	=> true,
-				'weight' 	=> 0,
-				'area'	=> 'header',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '12',
-				'left'		=> '2',
-				'right'		=> '2'
-			),
-			'navigation' => array(
-				'enabled'	=> true,
-				'weight' 	=> 0,
-				'area'	=> 'header',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '16',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'preface' => array(
-				'enabled'	=> true,
-				'weight' 	=> 10,
-				'area'	=> 'header',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '16',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'breadcrumb' => array(
-				'enabled'	=> true,
-				'weight' 	=> -10,
-				'area'	=> 'content',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '12',
-				'left'		=> '4',
-				'right'		=> ''
-			),
-			'content' => array(
-				'enabled'	=> true,
-				'weight' 	=> 0,
-				'area'	=> 'content',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '8',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'sidebar-one' => array(
-				'enabled'	=> true,
-				'weight' 	=> -5,
-				'area'	=> 'content',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '4',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'sidebar-two' => array(
-				'enabled'	=> true,
-				'weight' 	=> 10,
-				'area'	=> 'content',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '3',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'postscript' => array(
-				'enabled'	=> true,
-				'weight' 	=> -10,
-				'area'	=> 'footer',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '16',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'footer-one' => array(
-				'enabled'	=> true,
-				'weight' 	=> 0,
-				'area'	=> 'footer',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '16',
-				'left'		=> '',
-				'right'		=> ''
-			),
-			'footer-two' => array(
-				'enabled'	=> true,
-				'weight' 	=> 10,
-				'area'	=> 'footer',
-				'wrapper'	=> false,
-				'classes'	=> '',
-				'columns'	=> '8',
-				'left'		=> '8',
-				'right'		=> ''
-			),
-			
-			
-		);
-		return $zone_config;
-	}
+			//Save 'em.
+			update_option('flagship', $theme_variables);
+		}
+		//Use 'em
+		self::$theme_options = $theme_variables;
+	} 
 }
 
 
