@@ -6,8 +6,8 @@
  * @since Flagship 0.1
  */
 ?>
-		</section>
-		<footer id="area-footer" class="section"></footer>
+		<?php flagship_area_template('footer'); ?>
 	</div>
+	<?php  wp_footer(); ?>
 </body>
 </html>

@@ -13,19 +13,16 @@
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<meta name="viewport" content="width=device-width" />
-	<title><?php wp_title('|', true, 'right'); ?></title>
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-	<!--[if lt IE 9]>
+<meta charset="<?php bloginfo( 'charset' ); ?>" />
+<meta name="viewport" content="width=device-width" />
+<title><?php wp_title('|', true, 'right'); ?></title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+<!--[if lt IE 9]>
 	<script src="<?php echo get_template_directory_uri(); ?>/js/html5shiv.js" type="text/javascript"></script>
-	<![endif]-->
-	<?php wp_head(); ?>
+<![endif]-->
+<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 	<div class="page clearfix" id="page">
-		<header id="area-header" class="section">
-			<?php flagship_section_template('header'); ?>
-		</header>
-		<section id="area-content" class="section">
+			<?php flagship_area_template('header'); ?>

@@ -63,6 +63,8 @@ class EnqueueHandler {
 			if(self::build_minified_styles()) {
 				wp_enqueue_style('/css/flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, false);
 			} else {
+				if(!isset(self::$styles) || empty(self::$styles))
+					self::gather_styles();
 				//We're having issues, load raw stylesheet files.
 				foreach(self::$styles as $stylesheet => $handle) {
 					wp_enqueue_style($handle, FLAGSHIP_CSS_PATH . '/' . $stylesheet, false, false);
@@ -98,6 +100,9 @@ class EnqueueHandler {
 	 * @return
 	 */
 	protected static function build_minified_styles($force = false) {
+		if(FLAGSHIP_DEBUG === TRUE)
+			return false;
+		
 		//Backs out if we have minified CSS and not being overriden
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css') && $force == false)
 			return true;
