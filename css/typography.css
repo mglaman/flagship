@@ -4,6 +4,9 @@
  * @package Flagship
  */
 
+html, body {
+	font-family: 'Open Sans';
+}
 
 del {
 	color: #333;

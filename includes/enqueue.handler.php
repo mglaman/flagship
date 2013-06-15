@@ -21,6 +21,9 @@ class EnqueueHandler {
 			'typography.css'	=> 'flagship.typography.styles',
 			'responsive.css'	=> 'flagship.responsive.styles'
 		);
+		# @TODO: Need to add weight to stylesheets, otherwise things could get messy.
+		do_action('flagship_add_enqueue_styles', $flagship_stylesheets);
+		# @TODO: Sort stylesheet array by weight value.
 		self::$styles = $flagship_stylesheets;
 	}
 	/**
@@ -46,6 +49,7 @@ class EnqueueHandler {
 			//),
 			
 		);
+		do_action('flagship_add_enqueue_scripts', $flagship_scripts);
 		self::$scripts = $flagship_scripts;
 	 }
 	
@@ -77,7 +81,9 @@ class EnqueueHandler {
 		$wp_styles->add_data( 'flagship.ie.styles', 'conditional', 'lt IE 9' );
 		
 	}
-
+	/**
+	 * Enqueues framework scripts
+	 */
 	public static function enqueue_scripts() {
 		global $wp_scripts;
 		
@@ -92,6 +98,16 @@ class EnqueueHandler {
 				$wp_scripts->add_data( $args['handle'], 'conditional', $args['condition'] );
 				
 		}
+	}
+	/**
+	 * Enqueues selected Google Font(s)
+	 */
+	public static function enqueue_fonts() {
+		#@TODO: There wil be a form to pick and choose which fonts to enable/disable and add to list. Right now it's static
+		//wp_enqueue_style('fauna-one-font', 'http://fonts.googleapis.com/css?family=Fauna+One');
+		//wp_enqueue_style('noto-serif-font', 'http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic');
+		//wp_enqueue_style('raleway-font', ''http://fonts.googleapis.com/css?family=Raleway:400,600');
+		wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
 	}
 
 	/**
