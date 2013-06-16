@@ -1,4 +1,4 @@
 #Ignore Aptana
 .project
-
+.DS_Store
 css/flagship.min.css
