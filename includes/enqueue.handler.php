@@ -109,6 +109,13 @@ class EnqueueHandler {
 		//wp_enqueue_style('raleway-font', ''http://fonts.googleapis.com/css?family=Raleway:400,600');
 		wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
 	}
+	
+	/**
+	 * Enqueues our admin scripts
+	 */
+	public static function enqueue_admin() {
+		wp_enqueue_style('admin', get_template_directory_uri() . '/css/admin.css', false, false, 'screen');
+	}
 
 	/**
 	 * Combines the system stylsheets into one concatenated file, minified! Returns true if file exists or success, returns false on error.
@@ -116,8 +123,8 @@ class EnqueueHandler {
 	 * @return
 	 */
 	protected static function build_minified_styles($force = false) {
-		if(FLAGSHIP_DEBUG === TRUE)
-			return false;
+		 if(FLAGSHIP_DEBUG === TRUE)
+			 return false;
 		
 		//Backs out if we have minified CSS and not being overriden
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css') && $force == false)
@@ -140,7 +147,7 @@ class EnqueueHandler {
 			}
 		}
 		//Strip out line breaks.
-		$minified_css = str_replace(array("\r\n", "\r", "\n"), '', $minified_css);
+		$minified_css = str_replace(array("\r\n", "\r", "\n", " "), '', $minified_css);
 		//Save it.
 		$write_handle = fopen(FLAGSHIP_DIR_PATH.'/css/flagship.min.css', 'w+');
 		if(!fwrite($write_handle, $minified_css))
@@ -187,4 +194,5 @@ function flagship_rebuild_minify_stylesheets() {
 ## add_action and add_filter hooks
 add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_styles') );
 add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_scripts') );
+add_action( 'admin_enqueue_scripts', array('EnqueueHandler', 'enqueue_admin'));
 ?>

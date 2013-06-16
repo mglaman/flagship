@@ -6,7 +6,7 @@
  * @since Flagship 0.1
  */
  
-define(FLAGSHIP_DEBUG, TRUE);
+//define(FLAGSHIP_DEBUG, TRUE);
  
 //Define our directory paths
 if( ! defined(FLAGSHIP_DIR_PATH) )
@@ -28,6 +28,7 @@ require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
+add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
 
 class Flagship {
 	
@@ -38,6 +39,9 @@ class Flagship {
 	
 	//Various template variable storage, direct access for now.
 	public static $current_zone = null;
+	
+	//Public info on current theme setup.
+	public static $config_source = 'core';
 	
 	/**
 	 * Grabs our theme variables from database, populates class variables.
@@ -56,6 +60,13 @@ class Flagship {
 		if( isset(self::$theme_zones[$zone][$variable]) || !empty(self::$theme_zones[$zone][$variable]) )
 			return self::$theme_zones[$zone][$variable];
 		return false;
+	}
+	
+	/**
+	 * Gets list of areas in config
+	 */
+	public static function config_area_list() {
+		return self::$theme_areas;
 	}
 	
 	/**
@@ -79,6 +90,7 @@ class Flagship {
 	}
 	
 	protected static function load_theme_variables() {
+		//@NOTE: Commenting out below forces theme to load config.json versus database values, which in turn saves new config!
 		$theme_variables = get_option('flagship');
 		
 		//Lets make sure we didn't get an empty response.
@@ -86,8 +98,10 @@ class Flagship {
 			$config_path = get_template_directory() . '/config.core.json';
 			
 			//If the child theme has a config, load that instead.
-			if(file_exists(get_stylesheet_directory() . '/config.json') && filesize(get_stylesheet_directory() . '/config.json') > 0)
+			if(file_exists(get_stylesheet_directory() . '/config.json') && filesize(get_stylesheet_directory() . '/config.json') > 0) {
 				$config_path = get_stylesheet_directory() . '/config.json';
+				self::$config_source = 'child';	
+			}
 			
 			//Lets open up that config and build up our zones!
 			$config_handler = fopen($config_path, 'r');
@@ -101,6 +115,20 @@ class Flagship {
 		//Use 'em
 		self::$theme_options = $theme_variables;
 	} 
+	
+	/**
+	 * Tells WordPress to add our theme's menu items to the dashboard
+	 */
+	public static function create_framework_menu_page() {
+		add_menu_page('Dashboard', 'Flagship', 'manage_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
+		add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'theme-building', array('Flagship', 'get_admin_theme_building_page'));
+	}
+	public static function get_admin_dashboard_page() {
+		require(FLAGSHIP_INC_PATH.'/admin/dashboard.php');
+	}
+	public static function get_admin_theme_building_page() {
+		require(FLAGSHIP_INC_PATH.'/admin/theme-building.php');
+	}
 }
 
 

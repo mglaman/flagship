@@ -1,0 +1,81 @@
+pre, code {
+	border: 1px solid #999;
+	page-break-inside: avoid;
+}
+#import,
+code,
+pre {
+  padding: 0 3px 2px;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 12px;
+  color: #333333;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+code {
+  padding: 2px 4px;
+  color: #d14;
+  white-space: nowrap;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+
+pre,
+#import {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 20px;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+pre.prettyprint {
+  margin-bottom: 20px;
+}
+
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: 0;
+}
+
+.pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+p.lead {
+	width: 65%;
+}
+
+#flagship-configuration .divider {
+	width: 45%;
+	margin-right: 3%;
+	float: left;
+	height: 435px;
+}
+#flagship-configuration pre {
+	height: 100%;
+}
+#import {
+	width: 93%;
+	height: 200px;
+}
