@@ -1,24 +1,147 @@
-{"zones":
-	{"top-bar-one":{
-		"tite":"Top Bar One",
-		"enabled":true,
-		"weight":-10,
-		"area":"header",
-		"wrapper":false,
-		"classes":"",
-		"columns":"8",
-		"left":"",
-		"right":""
-	},
-	"top-bar-two":{
-		"tite":"Top Bar Two",
-		"enabled":true,
-		"weight":-10,
-		"area":"header",
-		"wrapper":false,
-		"classes":"",
-		"columns":"8",
-		"left":"",
-		"right":""
-		},
-		"branding":{"tite":"Branding","enabled":true,"weight":0,"area":"header","wrapper":false,"classes":"","columns":"12","left":"2","right":"2"},"navigation":{"tite":"Navigation","enabled":true,"weight":0,"area":"header","wrapper":false,"classes":"","columns":"16","left":"","right":""},"preface":{"tite":"Preface","enabled":true,"weight":10,"area":"header","wrapper":false,"classes":"","columns":"16","left":"","right":""},"breadcrumb":{"tite":"Breadcrumb","enabled":true,"weight":-10,"area":"content","wrapper":false,"classes":"","columns":"12","left":"4","right":""},"content":{"tite":"Content","enabled":true,"weight":0,"area":"content","wrapper":false,"classes":"","columns":"8","left":"","right":""},"sidebar-one":{"tite":"Sidebar One","enabled":true,"weight":-5,"area":"content","wrapper":false,"classes":"","columns":"4","left":"","right":""},"sidebar-two":{"tite":"Sidebar Two","enabled":true,"weight":10,"area":"content","wrapper":false,"classes":"","columns":"3","left":"","right":""},"postscript":{"tite":"Postscript","enabled":true,"weight":-10,"area":"footer","wrapper":false,"classes":"","columns":"16","left":"","right":""},"footer-one":{"tite":"Footer One","enabled":true,"weight":0,"area":"footer","wrapper":false,"classes":"","columns":"16","left":"","right":""},"footer-two":{"tite":"Footer Two","enabled":true,"weight":10,"area":"footer","wrapper":false,"classes":"","columns":"8","left":"8","right":""}},"areas":{"header":{"title":"Header"},"content":{"title":"Content"},"footer":{"title":"Footer"}}}
+{
+    "zones": {
+        "top-bar-one": {
+            "tite": "Top Bar One",
+            "enabled": true,
+            "weight": -10,
+            "area": "header",
+            "wrapper": false,
+            "classes": "",
+            "columns": "8",
+            "left": "",
+            "right": ""
+        },
+        "top-bar-two": {
+            "tite": "Top Bar Two",
+            "enabled": true,
+            "weight": -10,
+            "area": "header",
+            "wrapper": false,
+            "classes": "",
+            "columns": "8",
+            "left": "",
+            "right": ""
+        },
+        "branding": {
+            "tite": "Branding",
+            "enabled": true,
+            "weight": 0,
+            "area": "header",
+            "wrapper": false,
+            "classes": "",
+            "columns": "12",
+            "left": "2",
+            "right": "2"
+        },
+        "navigation": {
+            "tite": "Navigation",
+            "enabled": true,
+            "weight": 0,
+            "area": "header",
+            "wrapper": false,
+            "classes": "",
+            "columns": "16",
+            "left": "",
+            "right": ""
+        },
+        "preface": {
+            "tite": "Preface",
+            "enabled": true,
+            "weight": 10,
+            "area": "header",
+            "wrapper": false,
+            "classes": "",
+            "columns": "16",
+            "left": "",
+            "right": ""
+        },
+        "breadcrumb": {
+            "tite": "Breadcrumb",
+            "enabled": true,
+            "weight": -10,
+            "area": "content",
+            "wrapper": false,
+            "classes": "",
+            "columns": "12",
+            "left": "4",
+            "right": ""
+        },
+        "content": {
+            "tite": "Content",
+            "enabled": true,
+            "weight": 0,
+            "area": "content",
+            "wrapper": false,
+            "classes": "",
+            "columns": "8",
+            "left": "",
+            "right": ""
+        },
+        "sidebar-one": {
+            "tite": "Sidebar One",
+            "enabled": true,
+            "weight": -5,
+            "area": "content",
+            "wrapper": false,
+            "classes": "",
+            "columns": "4",
+            "left": "",
+            "right": ""
+        },
+        "sidebar-two": {
+            "tite": "Sidebar Two",
+            "enabled": true,
+            "weight": 10,
+            "area": "content",
+            "wrapper": false,
+            "classes": "",
+            "columns": "3",
+            "left": "",
+            "right": ""
+        },
+        "postscript": {
+            "tite": "Postscript",
+            "enabled": true,
+            "weight": -10,
+            "area": "footer",
+            "wrapper": false,
+            "classes": "",
+            "columns": "16",
+            "left": "",
+            "right": ""
+        },
+        "footer-one": {
+            "tite": "Footer One",
+            "enabled": true,
+            "weight": 0,
+            "area": "footer",
+            "wrapper": false,
+            "classes": "",
+            "columns": "16",
+            "left": "",
+            "right": ""
+        },
+        "footer-two": {
+            "tite": "Footer Two",
+            "enabled": true,
+            "weight": 10,
+            "area": "footer",
+            "wrapper": false,
+            "classes": "",
+            "columns": "8",
+            "left": "8",
+            "right": ""
+        }
+    },
+    "areas": {
+        "header": {
+            "title": "Header"
+        },
+        "content": {
+            "title": "Content"
+        },
+        "footer": {
+            "title": "Footer"
+        }
+    }
+}	
