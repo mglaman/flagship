@@ -29,6 +29,7 @@ require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
+add_action( 'flagship_export_json', array('Flagship', 'export_theme_config'));
 
 class Flagship {
 	
@@ -50,6 +51,12 @@ class Flagship {
 		self::load_theme_variables();
 		self::$theme_areas = self::$theme_options['areas'];
 		self::$theme_zones = self::$theme_options['zones'];
+	}
+	
+	public static function get_theme_variables($refresh = false) {
+		if($refresh)
+			self::launch_theme();
+		return self::$theme_options;
 	}
 	
 	/**
@@ -77,7 +84,7 @@ class Flagship {
 		$sort_column = array();
 		
 		foreach( self::$theme_zones as $zone => $attr ) {
-			if($attr['area'] == $area)
+			if($attr['area'] == $area && !empty($attr['enabled']))
 				$area_zone_array[$zone] = $attr;
 		}
 		
@@ -88,9 +95,18 @@ class Flagship {
 		
 		return $area_zone_array;
 	}
+	public static function disabled_zone_list($area) {
+		$area_zone_array = array();
+		foreach( self::$theme_zones as $zone => $attr) {
+			if($attr['area'] == $area && empty($attr['enabled']))
+				$area_zone_array[$zone] = $attr;
+		}
+		return $area_zone_array;
+	}
 	
 	protected static function load_theme_variables() {
 		//@NOTE: Commenting out below forces theme to load config.json versus database values, which in turn saves new config!
+		# @TODO: Create option to force refresh from config.json
 		$theme_variables = get_option('flagship');
 		
 		//Lets make sure we didn't get an empty response.
@@ -116,18 +132,32 @@ class Flagship {
 		self::$theme_options = $theme_variables;
 	} 
 	
+	public static function update_flagship_options($theme_variables) {
+		update_option('flagship', $theme_variables);
+		Flagship::get_theme_variables(true);
+	}
+	
 	/**
 	 * Tells WordPress to add our theme's menu items to the dashboard
 	 */
 	public static function create_framework_menu_page() {
-		add_menu_page('Dashboard', 'Flagship', 'manage_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
-		add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'theme-building', array('Flagship', 'get_admin_theme_building_page'));
+		add_menu_page('Dashboard', 'Flagship', 'edit_theme_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
+			add_submenu_page('flagship', 'Settings', 'Settings', 'edit_theme_options', 'settings', array('Flagship', 'get_admin_settings_page'));
+			add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'theme-building', array('Flagship', 'get_admin_theme_building_page'));
+			
+		add_theme_page('Flagship Zones', 'Zones', 'edit_theme_options', 'flagship-zones', array('Flagship', 'get_admin_zones_page'));
 	}
 	public static function get_admin_dashboard_page() {
 		require(FLAGSHIP_INC_PATH.'/admin/dashboard.php');
 	}
 	public static function get_admin_theme_building_page() {
 		require(FLAGSHIP_INC_PATH.'/admin/theme-building.php');
+	}
+	public static function get_admin_settings_page() {
+		require(FLAGSHIP_INC_PATH.'/admin/settings.php');
+	}
+	public static function get_admin_zones_page() {
+		require(FLAGSHIP_INC_PATH.'/admin/zones.php');
 	}
 }
 

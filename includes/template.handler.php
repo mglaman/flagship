@@ -33,8 +33,8 @@ function flagship_zone_template($zone) {
 		$zone = Flagship::$current_zone;
 		$columns = flagship_zone_columns();
 		$classes = (flagship_zone_extra_classes() 	!= '') ? flagship_zone_extra_classes() : '';
-		$left	 = (flagship_zone_left() 			!= '') ? 'left-' . flagship_zone_left() : '';
-		$right	 = (flagship_zone_right() 			!= '') ? 'right-' . flagship_zone_right() : '';
+		$left	 = (flagship_zone_left() != '0' && flagship_zone_left() != '') ? 'left-' . flagship_zone_left() : '';
+		$right	 = (flagship_zone_right() != '0' && flagship_zone_right() != '') ? 'right-' . flagship_zone_right() : '';
 		# @TODO: I don't like the extra empty whitespace. Make if/else printf
 		printf('id="%1$s" class="zone %1$s columns-%2$s %3$s %4$s %5$s"', $zone, $columns, $left, $right, $classes);
 	}

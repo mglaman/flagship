@@ -1,3 +1,18 @@
+.clear:after,
+.wrapper:after,
+.format-status .entry-header:after {
+	clear: both;
+}
+.clear:before,
+.clear:after,
+.wrapper:before,
+.wrapper:after,
+.format-status .entry-header:before,
+.format-status .entry-header:after {
+	display: table;
+	content: "";
+}
+
 pre, code {
 	border: 1px solid #999;
 	page-break-inside: avoid;
@@ -59,6 +74,34 @@ pre code {
   overflow-y: scroll;
 }
 
+/** Custom form stylings **/
+.flagship input {
+	line-height: 25px;
+  display: inline-block;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+.radio,
+.checkbox {
+  min-height: 20px;
+  padding-left: 10px;
+  vertical-align: top;
+  font-size: 13px;
+  background: none;
+}
+.radio input[type="radio"],
+.checkbox input[type="checkbox"] {
+  float: left;
+}
+
+
 .capitalize {
 	text-transform: capitalize;
 }
@@ -66,6 +109,22 @@ p.lead {
 	width: 65%;
 }
 
+.flagship-left-column {
+	width: 70%;
+	float: left;
+}
+.flagship-right-column {
+	width: 29%;
+	float: right;
+}
+.pull-left {
+	float: left;
+}
+.pull-right {
+	float: right;
+}
+
+/** Configuration Page **/
 #flagship-configuration .divider {
 	width: 45%;
 	margin-right: 3%;
@@ -78,4 +137,62 @@ p.lead {
 #import {
 	width: 93%;
 	height: 200px;
+}
+
+/** Zones Page **/
+.flagship-zones .postbox .hndle {
+	cursor: pointer;
+}
+
+.flagship-zones .fancy-title {
+	background-color: #21759b;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+	background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+	background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+	background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+	border-color: #21759b;
+	border-bottom-color: #1e6a8d;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+}
+.flagship-zones h3.fancy-title:hover {
+	color: #EAF2FA;
+}
+.flagship-zones .button-primary {
+	width: 100%;
+	font-size: 18px;
+	height: 40px;
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.4); 
+}
+
+.zone-options-heading .title {
+	width: 75%;
+}
+.zone-options-heading .enabled {
+	width: 20%;
+	font-size: 20px;
+}
+.zone-options-display .option {
+	float: left;
+	width: 19%;
+	margin-right: 1%;
+}
+.zone-options-display label,
+.zone-options-css .classes label {
+	display: block;
+	font-weight: bold;
+	font-size: 14px;
+	margin: auto auto 4px;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
+}
+.zone-options-display select {
+	width: 90%;
+	font-size: 14px;
+	color: #444;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
 }

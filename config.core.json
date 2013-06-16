@@ -1,7 +1,7 @@
 {
     "zones": {
         "top-bar-one": {
-            "tite": "Top Bar One",
+            "title": "Top Bar One",
             "enabled": true,
             "weight": -10,
             "area": "header",
@@ -12,7 +12,7 @@
             "right": ""
         },
         "top-bar-two": {
-            "tite": "Top Bar Two",
+            "title": "Top Bar Two",
             "enabled": true,
             "weight": -10,
             "area": "header",
@@ -23,7 +23,7 @@
             "right": ""
         },
         "branding": {
-            "tite": "Branding",
+            "title": "Branding",
             "enabled": true,
             "weight": 0,
             "area": "header",
@@ -34,7 +34,7 @@
             "right": "2"
         },
         "navigation": {
-            "tite": "Navigation",
+            "title": "Navigation",
             "enabled": true,
             "weight": 0,
             "area": "header",
@@ -45,7 +45,7 @@
             "right": ""
         },
         "preface": {
-            "tite": "Preface",
+            "title": "Preface",
             "enabled": true,
             "weight": 10,
             "area": "header",
@@ -56,7 +56,7 @@
             "right": ""
         },
         "breadcrumb": {
-            "tite": "Breadcrumb",
+            "title": "Breadcrumb",
             "enabled": true,
             "weight": -10,
             "area": "content",
@@ -67,7 +67,7 @@
             "right": ""
         },
         "content": {
-            "tite": "Content",
+            "title": "Content",
             "enabled": true,
             "weight": 0,
             "area": "content",
@@ -78,7 +78,7 @@
             "right": ""
         },
         "sidebar-one": {
-            "tite": "Sidebar One",
+            "title": "Sidebar One",
             "enabled": true,
             "weight": -5,
             "area": "content",
@@ -89,7 +89,7 @@
             "right": ""
         },
         "sidebar-two": {
-            "tite": "Sidebar Two",
+            "title": "Sidebar Two",
             "enabled": true,
             "weight": 10,
             "area": "content",
@@ -100,7 +100,7 @@
             "right": ""
         },
         "postscript": {
-            "tite": "Postscript",
+            "title": "Postscript",
             "enabled": true,
             "weight": -10,
             "area": "footer",
@@ -111,7 +111,7 @@
             "right": ""
         },
         "footer-one": {
-            "tite": "Footer One",
+            "title": "Footer One",
             "enabled": true,
             "weight": 0,
             "area": "footer",
@@ -122,7 +122,7 @@
             "right": ""
         },
         "footer-two": {
-            "tite": "Footer Two",
+            "title": "Footer Two",
             "enabled": true,
             "weight": 10,
             "area": "footer",
