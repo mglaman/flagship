@@ -144,7 +144,8 @@ p.lead {
 	cursor: pointer;
 }
 
-.flagship .fancy-title {
+.flagship .fancy-title,
+.widget-liquid-right .sidebar-name {
 	background-color: #21759b;
 	background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
 	background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
@@ -160,7 +161,8 @@ p.lead {
 	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
 }
-.flagship h3.fancy-title:hover {
+.flagship h3.fancy-title:hover,
+.widget-liquid-right .sidebar-name:hover {
 	color: #EAF2FA;
 }
 .flagship-zones .button-primary {
