@@ -25,43 +25,43 @@ function flagship_footer_zones() {
 
 /** Zone Functions **/
 function flagship_zone_template($zone) {
-	#@TODO: if(Flagship::zone_variables($zone, 'is_active'))
+	if(!ZoneHandler::zone_variables($zone, 'enabled'))
+		return false;
+	
 	Flagship::$current_zone = $zone;
 	get_template_part('templates/zones/zone', $zone);
 }
 	function flagship_zone_attribtutes() {
-		$zone = Flagship::$current_zone;
-		$columns = flagship_zone_columns();
-		$classes = (flagship_zone_extra_classes() 	!= '') ? flagship_zone_extra_classes() : '';
-		$left	 = (flagship_zone_left() != '0' && flagship_zone_left() != '') ? 'left-' . flagship_zone_left() : '';
-		$right	 = (flagship_zone_right() != '0' && flagship_zone_right() != '') ? 'right-' . flagship_zone_right() : '';
-		# @TODO: I don't like the extra empty whitespace. Make if/else printf
-		printf('id="%1$s" class="zone %1$s columns-%2$s %3$s %4$s %5$s"', $zone, $columns, $left, $right, $classes);
+		ZoneHandler::get_attributes();
 	}
 
 function flagship_zone_extra_classes() {
-	return Flagship::zone_variables(Flagship::$current_zone, 'classes');
+	return ZoneHandler::zone_variables(Flagship::$current_zone, 'classes');
 }
 function flagship_zone_columns() {
-	return Flagship::zone_variables(Flagship::$current_zone, 'columns');
+	return ZoneHandler::zone_variables(Flagship::$current_zone, 'columns');
 }
 function flagship_zone_left() {
-	return Flagship::zone_variables(Flagship::$current_zone, 'left');
+	return ZoneHandler::zone_variables(Flagship::$current_zone, 'left');
 }
 function flagship_zone_right() {
-	return Flagship::zone_variables(Flagship::$current_zone, 'right');
+	return ZoneHandler::zone_variables(Flagship::$current_zone, 'right');
 }	
 function flagship_zone_start_wrapper() {
 	$zone = Flagship::$current_zone;
-	if( Flagship::zone_variables($zone, 'wrapper') ) : ?>
+	if( ZoneHandler::zone_variables($zone, 'wrapper') ) : ?>
 		<div id="<?php echo $zone ?>-wrapper" class="zone-wrappper">
 	<?php endif;
 }
 function flagship_zone_end_wrapper() {
 	$zone = Flagship::$current_zone;
-	if( Flagship::zone_variables($zone, 'wrapper') ) : ?>
+	if( ZoneHandler::zone_variables($zone, 'wrapper') ) : ?>
 	</div>
 	<?php endif;
+}
+
+function flagship_zone_widgets() {
+	dynamic_sidebar( Flagship::$current_zone );
 }
 
 /** Misc Functions **/

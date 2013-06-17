@@ -26,6 +26,9 @@ if( ! defined(FLAGSHIP_JS_PATH) )
 
 require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
+require(FLAGSHIP_INC_PATH . '/zones.handler.php');
+
+add_theme_support( 'post-thumbnails' );
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
@@ -35,8 +38,8 @@ class Flagship {
 	
 	//Arrays to hold theme options
 	protected static $theme_options = array();
-	protected static $theme_zones 	= array();
-	protected static $theme_areas 	= array();
+	public static $theme_zones 	= array();
+	public static $theme_areas 	= array();
 	
 	//Various template variable storage, direct access for now.
 	public static $current_zone = null;
@@ -57,16 +60,6 @@ class Flagship {
 		if($refresh)
 			self::launch_theme();
 		return self::$theme_options;
-	}
-	
-	/**
-	 * Class function to retrieve variables for a zone.
-	 */
-	public static function zone_variables($zone, $variable) {
-		
-		if( isset(self::$theme_zones[$zone][$variable]) || !empty(self::$theme_zones[$zone][$variable]) )
-			return self::$theme_zones[$zone][$variable];
-		return false;
 	}
 	
 	/**
@@ -158,6 +151,28 @@ class Flagship {
 	}
 	public static function get_admin_zones_page() {
 		require(FLAGSHIP_INC_PATH.'/admin/zones.php');
+	}
+
+	/**
+	 * Helper for disabling default widgets, just an array
+	 */
+	public static function default_wordpress_widgets() {
+		$default_widgets = array(
+			'WP_Widget_Pages'                   => 'Pages Widget',
+			'WP_Widget_Calendar'                => 'Calendar Widget',
+			'WP_Widget_Archives'                => 'Archives Widget',
+			'WP_Widget_Links'                   => 'Links Widget',
+			'WP_Widget_Meta'                    => 'Meta Widget',
+			'WP_Widget_Search'                  => 'Search Widget',
+			'WP_Widget_Text'                    => 'Text Widget',
+			'WP_Widget_Categories'              => 'Categories Widget',
+			'WP_Widget_Recent_Posts'            => 'Recent Posts Widget',
+			'WP_Widget_Recent_Comments'         => 'Recent Comments Widget',
+			'WP_Widget_RSS'                     => 'RSS Widget',
+			'WP_Widget_Tag_Cloud'               => 'Tag Cloud Widget',
+			'WP_Nav_Menu_Widget'                => 'Menus Widget'
+		);
+		return $default_widgets;
 	}
 }
 
