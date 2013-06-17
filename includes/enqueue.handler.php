@@ -147,7 +147,9 @@ class EnqueueHandler {
 			}
 		}
 		//Strip out line breaks.
-		$minified_css = str_replace(array("\r\n", "\r", "\n", " "), '', $minified_css);
+		$minified_css = str_replace(array("\r\n", "\r", "\n", "\t"), '', $minified_css);
+		$minified_css = str_replace(': ', ':', $minified_css);
+		$minified_css = preg_replace("/\s+(?![^\{\}]*\})/x", "", $minified_css);
 		//Save it.
 		$write_handle = fopen(FLAGSHIP_DIR_PATH.'/css/flagship.min.css', 'w+');
 		if(!fwrite($write_handle, $minified_css))
