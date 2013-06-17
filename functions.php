@@ -29,11 +29,12 @@ require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 require(FLAGSHIP_INC_PATH . '/widgets.handler.php');
 require(FLAGSHIP_INC_PATH . '/zones.handler.php');
 
-add_theme_support( 'post-thumbnails' );
-
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
 add_action( 'flagship_export_json', array('Flagship', 'export_theme_config'));
+if( !is_admin() ) {
+	add_action( 'admin_bar_menu', array('FLagship', 'toolbar_zones_menu_item'), 999 );
+}
 
 class Flagship {
 	
@@ -56,6 +57,7 @@ class Flagship {
 		self::$theme_areas = self::$theme_options['areas'];
 		self::$theme_zones = self::$theme_options['zones'];
 		
+		//Register our navigation menu
 		register_nav_menu( 'primary', 'Main Navigation' );
 		
 		//Adds our canonical htaccess rule.
@@ -64,7 +66,15 @@ class Flagship {
 			//add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
 		}
 		
+		//Loads our widget extender plugin.
 		WidgetsHandler::initialize();
+		
+		//Theme support
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'automatic-feed-links' ); #@TODO: Include by default, add option to disable
+		add_theme_support( 'post-formats', array( #@TODO: Enable/Disable from settings
+			'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
+		) );
 	}
 	
 	public static function get_theme_variables($refresh = false) {
@@ -206,8 +216,18 @@ class Flagship {
 		
 		return $new_rules;
 	 }
+	 
+	 public static function toolbar_zones_menu_item( $wp_admin_bar ) {
+		  $args = array(
+		    'id' => 'zones',
+		    'title' => 'Zones',
+		    'href' => admin_url('themes.php?page=fs-zones'),
+		    'meta' => array('class' => 'flagship-zones'),
+			'parent' => 'site-name',
+		  );
+		
+		  $wp_admin_bar->add_node($args);
+		}
 }
-
-
 
 ?>

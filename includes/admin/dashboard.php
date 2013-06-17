@@ -2,10 +2,7 @@
 <div id="icon-welcome" class="icon32" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/page-icon-dashboard.png);"></div>
 <h2>Flagship Dashboard</h2>
 <div class="metabox-holder">
-	<div class="flagship-left-column">
-		Blah
-	</div>
-	<div class="post-box-container flagship-right-column">
+	<div class="post-box-container flagship-left-column">
 		<div class="inside meta-box-sortables  ui-sortable">
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
@@ -17,6 +14,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="post-box-container flagship-right-column">
+
 		<div class="inside meta-box-sortables  ui-sortable">
 			<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>

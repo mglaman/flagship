@@ -4,6 +4,9 @@
  *
  * @package Flagship
  * @since Flagship 0.1
+ * 
+ * @todo: migrate the two options into core config - or flagship_widgets to combine both.
+ * 			will need func to replace update_option to make sure full option called and previous data written, not forgotten.
  */
  
 
@@ -109,7 +112,14 @@ class WidgetsHandler {
 				<input class="widefat" type="text" name="%1$s-classes" id="%1$s-classes" value="%2$s"></label></p>', $id_disp, $classes);
 		printf('<p><label for="%1$s-filter">Block Filter: 
 				<textarea class="widefat" type="text" name="%1$s-filter" id="%1$s-filter">%2$s</textarea></label></p>', $id_disp, $filter);
-	
+		?>
+		 <div class="widget-filter-examples">
+		 	<a onclick="jQuery('.helper-<?php echo $id_disp ?>').toggle();" style="cursor: pointer">Help</a>
+		 	<div class="helper-<?php echo $id_disp ?>" style="display: none;">
+		 		This textarea utilizes <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank">WordPress Conditional Tags</a>. The code here is executed using eval() and is treated as if within a IF statement.
+		 	</div>
+		 </div>
+		<?php
 	
 	}
 
@@ -126,6 +136,8 @@ class WidgetsHandler {
 	
 				if(empty(self::$widget_filters[$id]))
 					continue;
+				
+				# @TODO: Save filters as array within the ID, need to add foreach and loop below against each filter.
 				
 				$filter = stripcslashes(trim(self::$widget_filters[$id]));
 				if(empty($filter))
@@ -158,6 +170,5 @@ class WidgetsHandler {
 	
 		return $params;
 	}
-
 }
 ?>
