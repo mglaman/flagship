@@ -66,6 +66,21 @@ function flagship_zone_widgets() {
 
 /** Misc Functions **/
 
+function flagship_primary_navigation() {
+	$theme_variables = Flagship::get_theme_variables();
+	$inline = $theme_variables['navigation']['type'];
+	
+	$defaults = array(
+		'theme_location'  => 'primary',
+		'container'=> 'false',
+		'menu_class'=> ($inline == 'horizontal') ? 'primary menu inline' : 'primary menu', 
+		'menu_id'=> 'primary-menu',
+		'echo'=> true
+	);
+	do_action('flagship_alter_navigation_args', $defaults);
+	wp_nav_menu( $defaults );
+}
+
 /**
  * Flagship will not utilize typical use of archive.php for archive pages. We need to let zone-content know what loop to load.
  */

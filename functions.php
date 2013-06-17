@@ -26,6 +26,7 @@ if( ! defined(FLAGSHIP_JS_PATH) )
 
 require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
+require(FLAGSHIP_INC_PATH . '/widgets.handler.php');
 require(FLAGSHIP_INC_PATH . '/zones.handler.php');
 
 add_theme_support( 'post-thumbnails' );
@@ -54,6 +55,16 @@ class Flagship {
 		self::load_theme_variables();
 		self::$theme_areas = self::$theme_options['areas'];
 		self::$theme_zones = self::$theme_options['zones'];
+		
+		register_nav_menu( 'primary', 'Main Navigation' );
+		
+		//Adds our canonical htaccess rule.
+		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www'])) {
+			# @TODO: Fix this. Throwing 500
+			//add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
+		}
+		
+		WidgetsHandler::initialize();
 	}
 	
 	public static function get_theme_variables($refresh = false) {
@@ -135,10 +146,10 @@ class Flagship {
 	 */
 	public static function create_framework_menu_page() {
 		add_menu_page('Dashboard', 'Flagship', 'edit_theme_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
-			add_submenu_page('flagship', 'Settings', 'Settings', 'edit_theme_options', 'settings', array('Flagship', 'get_admin_settings_page'));
-			add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'theme-building', array('Flagship', 'get_admin_theme_building_page'));
+			add_submenu_page('flagship', 'Settings', 'Settings', 'edit_theme_options', 'fs-settings', array('Flagship', 'get_admin_settings_page'));
+			add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'fs-theme-building', array('Flagship', 'get_admin_theme_building_page'));
 			
-		add_theme_page('Flagship Zones', 'Zones', 'edit_theme_options', 'flagship-zones', array('Flagship', 'get_admin_zones_page'));
+		add_theme_page('Flagship Zones', 'Zones', 'edit_theme_options', 'fs-zones', array('Flagship', 'get_admin_zones_page'));
 	}
 	public static function get_admin_dashboard_page() {
 		require(FLAGSHIP_INC_PATH.'/admin/dashboard.php');
@@ -174,6 +185,27 @@ class Flagship {
 		);
 		return $default_widgets;
 	}
+	
+	/**
+	 * Hooks into rewrite rules.
+	 */
+	 public static function modify_rewrite_rules( $rules ) {
+	 	$force_preferred = 
+	 	"<IfModule mod_rewrite.c>
+			RewriteEngine On";
+	 	if(self::$theme_options['seo']['force_www'] == "true") {
+	 		$force_preferred .= "RewriteCond %{HTTP_HOST} !^www\.
+								RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]";
+	 	} else {
+	 		$force_preferred .= "RewriteCond %{HTTP_HOST} !^%{HTTP_HOST}$ [NC]
+								RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]";
+	 	}
+		$force_preferred .= 
+		"</IfModule>";
+		echo $new_rules = $force_preferred . $rules;
+		
+		return $new_rules;
+	 }
 }
 
 
