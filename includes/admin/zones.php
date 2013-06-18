@@ -156,7 +156,7 @@ function select_one_sixteen($current_value) { ?>
 		</div>
 		<div class="post-box-container flagship-right-column">
 			<div class="helper-text">
-				<div class="zones-container inside meta-box-sortables ui-sortable">
+				<div class="zone-navigation ui-sortable">
 					<div class="postbox">
 						<div class="handlediv" title="Click to toggle"><br></div>
 						<h3 class="hndle fancy-title"><span>Navigation</span></h3>

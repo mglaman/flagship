@@ -74,18 +74,15 @@ pre code {
 }
 
 /** Custom form stylings **/
-.flagship input {
+.flagship-zones input {
 	line-height: 25px;
-  display: inline-block;
-  padding: 4px 6px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #555555;
-  vertical-align: middle;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+	display: inline-block;
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	color: #555555;
+	vertical-align: middle;
+    border-radius: 4px;
 }
 .radio,
 .checkbox {
@@ -98,6 +95,14 @@ pre code {
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
+}
+
+.webmaster-tools label {
+	display: inline-block;
+	width: 120px;
+}
+.webmaster-tools input {
+	width: 300px;
 }
 
 

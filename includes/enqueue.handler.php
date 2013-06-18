@@ -16,13 +16,21 @@ class EnqueueHandler {
 	protected static function gather_styles() {
 		# @TODO: Instead of hardcoded array, possibly have as framework option to enable and disable.
 		$flagship_stylesheets = array(
-			'core.css' 			=> 'flagship.core.styles',
-			'formalize.css' 	=> 'formalize',
-			'typography.css'	=> 'flagship.typography.styles',
-			'responsive.css'	=> 'flagship.responsive.styles'
+			'core.css' 			=> array(
+				'handle' => 'flagship.core.styles',
+				'location' => 'core'),
+			'formalize.css' 	=> array(
+				'handle' => 'formalize',
+				'location' => 'core'),
+			'typography.css'	=> array(
+				'handle' => 'flagship.typography.styles',
+				'location' => 'core'),
+			'responsive.css'	=> array(
+				'handle' => 'flagship.responsive.styles', 
+				'location' => 'core')
 		);
 		# @TODO: Need to add weight to stylesheets, otherwise things could get messy.
-		do_action('flagship_add_enqueue_styles', $flagship_stylesheets);
+		do_action_ref_array('flagship_add_enqueue_styles', array( &$flagship_stylesheets ));
 		# @TODO: Sort stylesheet array by weight value.
 		self::$styles = $flagship_stylesheets;
 	}
@@ -61,17 +69,18 @@ class EnqueueHandler {
 		
 		//Check if we have our minified stylesheets
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css')) {
-			wp_enqueue_style('/css/flagship.min',  FLAGSHIP_CSS_PATH. '/flagship.min.css', false, false);
+			wp_enqueue_style('flagship.min',  FLAGSHIP_CSS_PATH. '/flagship.min.css', false, false);
 		} else {
 			//Try to build minified stylsheets and enqueue them.
 			if(self::build_minified_styles()) {
-				wp_enqueue_style('/css/flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, false);
+				wp_enqueue_style('flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, false);
 			} else {
 				if(!isset(self::$styles) || empty(self::$styles))
 					self::gather_styles();
 				//We're having issues, load raw stylesheet files.
-				foreach(self::$styles as $stylesheet => $handle) {
-					wp_enqueue_style($handle, FLAGSHIP_CSS_PATH . '/' . $stylesheet, false, false);
+				foreach(self::$styles as $stylesheet => $attr) {
+					$location = ($attr['location'] == 'core') ? FLAGSHIP_CSS_PATH : get_stylesheet_directory_uri().'/css';
+					wp_enqueue_style($attr['handle'], $location . '/' . $stylesheet, false, false);
 				}
 			}
 		}
@@ -135,7 +144,8 @@ class EnqueueHandler {
 		$minified_css = null;
 		foreach(self::$styles as $stylesheet => $args) {
 			//Set current directory path to stylesheet
-			$current_stylesheet = FLAGSHIP_DIR_PATH.'/css/'.$stylesheet;
+			$location = ($args['location'] == 'core') ? FLAGSHIP_DIR_PATH : get_stylesheet_directory();
+			$current_stylesheet = $location.'/css/'.$stylesheet;
 			
 			//Just incase, verify files are CSS. Don't want any hijackers ruining our fun.
 			$stylesheet_info = pathinfo($current_stylesheet);

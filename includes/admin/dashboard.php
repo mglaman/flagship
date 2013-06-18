@@ -1,3 +1,4 @@
+
 <div class="wrap flagship flagship-dashboard">
 <div id="icon-welcome" class="icon32" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/page-icon-dashboard.png);"></div>
 <h2>Flagship Dashboard</h2>
@@ -30,6 +31,28 @@
 						</ul>
 					</p>
 					<p>JCM Solutions provides premium Flagship support subscriptions. <a href="#">Get faster, more extensive support</a> with a yearly subscription.</p>
+				</div>
+			</div>
+		</div>
+		<div class="inside meta-box-sortables ui-sortable">
+			<div class="postbox">
+				<div class="handlediv" title="Click to toggle"><br /></div>
+				<h3 class="hndle fancy-title"><span>Flagship News</span></h3>
+				<div class="inside">
+				<?php
+						$news_widget = array(
+							'link' => 'http://flagshiptheme.com',
+							'url' => 'http://flagshiptheme.com/feed/',
+							'title' => 'Flagship News',
+							'items' => 5,
+							'show_summary' => 1,
+							'show_author' => 0,
+							'show_date' => 1
+						);
+					echo '<div class="rss-widget">';
+					wp_widget_rss_output( $news_widget );
+					echo "</div>";
+					?>
 				</div>
 			</div>
 		</div>

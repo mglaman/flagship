@@ -2,20 +2,9 @@
 $theme_variables = Flagship::get_theme_variables();
 if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables = Flagship::get_theme_variables(true);
-	$theme_variables['seo']['force_www'] = $_POST['flagship']['seo']['force_www'];
+	$theme_variables['seo'] = $_POST['flagship']['seo'];
 	$theme_variables['disable_widgets'] = $_POST['flagship']['disable_widgets'];
 	Flagship::update_flagship_options($theme_variables);
-}
-add_settings_section('flagship-seo', 'Search Engine Optimization', 'flagship_seo_settings_section', 'settings');
-	add_settings_field('force-www', 'Force www.', 'flagship_seo_force_www', 'settings', 'flagship-seo',  'flagship-force-www');	
-
-function flagship_seo_settings_section() {
-	?><p>Flagship provides some basic SEO support. WordPress SEO by Yoast is highly recommended for your SEO needs.</p><?php
-}
-function flagship_seo_force_www() {
-	$theme_variables = Flagship::get_theme_variables(true);
-	?> <p><label><input type="radio" value="true" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'true'); ?>/> Yes, use www.example.com</label></p> <?php
-	?> <p><label><input type="radio" value="false" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'false'); ?>/> No, use example.com</label></p> <?php
 }
 
 ?>
@@ -31,13 +20,22 @@ function flagship_seo_force_www() {
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle fancy-title"><span>Search Engine Optimization</span></h3>
 				<div class="inside">
-					<div class="force-www clear">
+					<div class="force-www pull-left">
 						<div class="controls-text">
 							<strong>Canonical (Preferred) Domain</strong>
 						</div>
-						<div class="controls">
+						<div class="controls clear">
 							<p><label class="radio"><input type="radio" value="true" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'true'); ?>/> Yes, use www.example.com</label></p>
 							<p><label class="radio"><input type="radio" value="false" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'false'); ?>/> No, use example.com</label></p>
+						</div>
+					</div>
+					<div class="webmaster-tools" style="margin-left: 250px;">
+						<div class="controls-text">
+							<strong>Webmaster Tools Verficiation</strong>
+						</div>
+						<div class="controls">
+							<p><label for="google_verify">Google Verification:</label><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></p>
+							<p><label for="bing_verify">Bing Verification:</label><input type="text" id="bing_verify" name="flagship[seo][bing_verify]" value="<?php echo $theme_variables['seo']['bing_verify'] ?>" /></p>
 						</div>
 					</div>
 				</div>
