@@ -6,7 +6,6 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables['disable_widgets'] = $_POST['flagship']['disable_widgets'];
 	Flagship::update_flagship_options($theme_variables);
 }
-
 ?>
 <div class="wrap flagship flagship-seo">
 <div id="icon-welcome" class="icon32" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/page-icon-settings.png);"></div>
@@ -20,24 +19,25 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle fancy-title"><span>Search Engine Optimization</span></h3>
 				<div class="inside">
-					<div class="force-www pull-left">
-						<div class="controls-text">
-							<strong>Canonical (Preferred) Domain</strong>
-						</div>
-						<div class="controls clear">
-							<p><label class="radio"><input type="radio" value="true" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'true'); ?>/> Yes, use www.example.com</label></p>
-							<p><label class="radio"><input type="radio" value="false" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'false'); ?>/> No, use example.com</label></p>
-						</div>
-					</div>
-					<div class="webmaster-tools" style="margin-left: 250px;">
-						<div class="controls-text">
-							<strong>Webmaster Tools Verficiation</strong>
-						</div>
-						<div class="controls">
-							<p><label for="google_verify">Google Verification:</label><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></p>
-							<p><label for="bing_verify">Bing Verification:</label><input type="text" id="bing_verify" name="flagship[seo][bing_verify]" value="<?php echo $theme_variables['seo']['bing_verify'] ?>" /></p>
-						</div>
-					</div>
+					<table class="form-table">
+						<tbody>
+							<tr align="top">
+								<th scope="row"><label>Canonical (Preferred) Domain</label></th>
+								<td>
+									<p><label class="radio"><input type="radio" value="true" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'true'); ?>/> Yes, use www.example.com</label></p>
+									<p><label class="radio"><input type="radio" value="false" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'false'); ?>/> No, use example.com</label></p>
+								</td>
+							</tr>
+							<tr align="top">
+								<th scope="row"><label for="google_verify">Google Verify Code:</label></th>
+								<td><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></p></td>
+							</tr>
+							<tr align="top">
+								<th scope="row"><label for="bing_verify">Bing Verify Code:</label></th>
+								<td><input type="text" id="bing_verify" name="flagship[seo][bing_verify]" value="<?php echo $theme_variables['seo']['bing_verify'] ?>" /></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</section> 
 			<section id="seo" class="postbox widgets">

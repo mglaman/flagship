@@ -4,7 +4,6 @@ $theme_variables = Flagship::get_theme_variables();
 
 if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables['zones'] 		= $_POST['flagship']['zones'];
-	$theme_variables['navigation']	= $_POST['flagship']['navigation'];
 	Flagship::update_flagship_options($theme_variables);
 }
 
@@ -89,6 +88,10 @@ function select_one_sixteen($current_value) { ?>
 							</div>
 						</section>
 				<?php endforeach; ?>
+			</div>
+		</div>
+		<div class="flagship-right-column post-box-container">
+			<div class="helper-text">
 						<section id="disabled" class="postbox area closed">
 							<div class="handlediv" title="Click to toggle"><br></div>
 							<h3 class="hndle fancy-title"><span>Disabled Zones</span></h3>
@@ -104,73 +107,21 @@ function select_one_sixteen($current_value) { ?>
 												<p class="title pull-left"><input type="text" name="flagship[zones][<?php echo $zone; ?>][title]" class="widefat" value="<?php echo $attr['title']; ?>" /></p>
 												<p class="enabled pull-right"><label class="checkbox"><input type="checkbox" name="flagship[zones][<?php echo $zone; ?>][enabled]" value="1" <?php checked($attr['enabled'], '1'); ?>/>Enabled</label></p>
 											</div>
-											<div class="zone-options-display clear">
-												<div class="option zone">
-													<label>Zone</label>
-													<select name="flagship[zones][<?php echo $zone; ?>][area]">
-														<?php foreach(Flagship::config_area_list() as $area => $area_attr) : ?>
-															<option value="<?php echo $area; ?>" <?php selected($attr['area'], $area) ?>><?php echo $area_attr['title']; ?></option>
-														<?php endforeach; ?>
-													</select>
-												</div>
-												<div class="option left">
-													<label>Pad Left</label>
-													<select name="flagship[zones][<?php echo $zone; ?>][left]">
-														<?php select_one_sixteen($attr['left']); ?>
-													</select>
-												</div>
-												<div class="option columns">
-													<label>Columns</label>
-													<select name="flagship[zones][<?php echo $zone; ?>][columns]">
-														<?php select_one_sixteen($attr['columns']); ?>
-													</select>
-												</div>
-												<div class="option right">
-													<label>Pad Right</label>
-													<select name="flagship[zones][<?php echo $zone; ?>][right]">
-														<?php select_one_sixteen($attr['right']); ?>
-													</select>
-												</div>
-												<div class="option weight">
-													<label>Weight</label>
-													<select name="flagship[zones][<?php echo $zone; ?>][weight]">
-														<?php for($i=-10;$i<=10;$i++) : ?>
-															<option value="<?php echo $i; ?>" <?php selected($attr['weight'], $i); ?>><?php echo $i; ?></option>
-														<?php endfor;?>
-													</select>													
-												</div>
-											</div>
-											<div class="zone-options-css clear">
-												<p class="classes">
-													<label>Additional Styling</label>
-													<input type="text" name="flagship[zones][<?php echo $zone; ?>][classes]" class="widefat" value="<?php echo $attr['classes']; ?>"  placeholder="Enter class names here"/></p>
-												<p class="wrapper"><label class="checkbox"><input type="checkbox" name="flagship[zones][<?php echo $zone; ?>][wrapper]" value="true" <?php checked($attr['wrapper'], 'true'); ?>/>Add Wrapper</label></p>
-											</div>
+											<!-- Hidden values so they don't dissapear -->
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][area]" value="<?php echo $attr['area']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][left]" value="<?php echo $attr['left']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][columns]" value="<?php echo $attr['columns']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][right]" value="<?php echo $attr['right']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][weight]" value="<?php echo $attr['weight']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][classes]" value="<?php echo $attr['classes']; ?>" />
+											<input type="hidden" name="flagship[zones][<?php echo $zone; ?>][wrapper]" value="<?php echo $attr['wrapper']; ?>" /> 
 										</div>								
 									</div>
 								<?php endforeach; ?>
 							<?php endforeach; ?>
 							</div>
 						</section>
-			</div>
-		</div>
-		<div class="post-box-container flagship-right-column">
-			<div class="helper-text">
-				<div class="zone-navigation ui-sortable">
-					<div class="postbox">
-						<div class="handlediv" title="Click to toggle"><br></div>
-						<h3 class="hndle fancy-title"><span>Navigation</span></h3>
-						<div class="inside">
-							These settings allow you to adjust the built-in WordPress navigation menu settings.
-							<p><label>Style: <select name="flagship[navigation][type]" style="width:80%;">
-													<option value="horizontal" <?php selected($theme_variables['navigation']['type'], 'horizontal'); ?>>Horizontal</option>
-													<option value="vertical" <?php selected($theme_variables['navigation']['type'], 'vertical'); ?>>Vertical</option>
-											</select>
-							</label></p>
-						</div>
-					</div>
-				</div>
-				<div class="zones-container inside meta-box-sortables  ui-sortable">
+				<div class="zones-container inside ui-sortable">
 					<div class="postbox">
 						<div class="handlediv" title="Click to toggle"><br></div>
 						<h3 class="hndle fancy-title"><span>Help</span></h3>
