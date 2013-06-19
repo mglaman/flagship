@@ -3,10 +3,9 @@
  * A bunch of goodness.
  * 
  * @package Flagship
- * @since Flagship 0.1
+ * @since Flagship 0.2
  */
- 
-add_action('flagship_add_enqueue_styles', 'flagship_child_enqueue_styles', 10, 1);
+add_action('flagship_add_enqueue_styles', 'flagship_child_enqueue_styles', 0, 1);
 
 function flagship_child_enqueue_styles( &$styles_array ) {
 	
