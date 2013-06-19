@@ -97,10 +97,6 @@ pre code {
   float: left;
 }
 
-.webmaster-tools label {
-	display: inline-block;
-	width: 120px;
-}
 .webmaster-tools input {
 	width: 300px;
 }

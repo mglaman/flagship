@@ -31,7 +31,8 @@ require(FLAGSHIP_INC_PATH . '/zones.handler.php');
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
-add_action( 'flagship_export_json', array('Flagship', 'export_theme_config'));
+add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
+add_action( 'wp_head', array('Flagship', 'hook_wp_head'));
 if( !is_admin() ) {
 	add_action( 'admin_bar_menu', array('FLagship', 'toolbar_zones_menu_item'), 999 );
 }
@@ -80,6 +81,24 @@ class Flagship {
 			flagship_rebuild_minify_stylesheets();
 		}
 		
+		add_filter('the_generator', create_function( '', 'return "";' ) );
+	}
+
+	/**
+	 * Allows theme to dump stuff into wp_head
+	 */
+	public static function hook_wp_head() {
+		
+		echo '<!-- Flagship Theme Framework -->'. PHP_EOL;
+		if(isset(self::$theme_options['seo']['google_verify']) && !empty(self::$theme_options['seo']['google_verify']))
+			echo '<meta name="google-site-verification" content="'.self::$theme_options['seo']['google_verify'].'">'. PHP_EOL;
+		if(isset(self::$theme_options['seo']['bing_verify']) && !empty(self::$theme_options['seo']['bing_verify']))
+			echo '<meta name="msvalidate.01" content="'.self::$theme_options['seo']['bing_verify'].'">' . PHP_EOL;
+		if(isset(self::$theme_options['seo']['google_plus']) && !empty(self::$theme_options['seo']['google_plus']))
+			echo '<link rel="publisher" href="'.self::$theme_options['seo']['google_plus'].'">' . PHP_EOL;
+		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www']))
+			echo '<link rel="canonical" href="http://'.self::$theme_options['seo']['force_www'].'">' . PHP_EOL;
+		echo '<!-- End Flagship Theme Framework -->' .PHP_EOL;
 	}
 	
 	public static function get_theme_variables($refresh = false) {
@@ -209,7 +228,7 @@ class Flagship {
 	 * Hooks into rewrite rules.
 	 */
 	 public static function modify_rewrite_rules( $rules ) {
-	 	$force_preferred = 
+	 	/*$force_preferred = 
 	 	"<IfModule mod_rewrite.c>
 			RewriteEngine On";
 	 	if(self::$theme_options['seo']['force_www'] == "true") {
@@ -221,8 +240,200 @@ class Flagship {
 	 	}
 		$force_preferred .= 
 		"</IfModule>";
-		echo $new_rules = $force_preferred . $rules;
+		echo $new_rules = $force_preferred . $rules;*/
 		
+		$flagship_rewrite_rules = '
+# This .htaccess file is used to speed up this website
+# See https://github.com/sergeychernyshev/.htaccess
+
+
+# ----------------------------------------------------------------------
+# Proper MIME type for all files
+#
+# Copied from the HTML5 boilerplate project\'s .htaccess file
+# https://github.com/h5bp/html5-boilerplate/blob/master/.htaccess
+# ----------------------------------------------------------------------
+
+# JavaScript
+#   Normalize to standard type (it\'s sniffed in IE anyways)
+#   tools.ietf.org/html/rfc4329#section-7.2
+AddType	application/javascript			js jsonp
+AddType	application/json			json
+
+# Audio
+AddType	audio/ogg				oga ogg
+AddType	audio/mp4				m4a f4a f4b
+
+# Video
+AddType	video/ogg				ogv
+AddType	video/mp4				mp4 m4v f4v f4p
+AddType	video/webm				webm
+AddType	video/x-flv				flv
+
+# SVG
+#   Required for svg webfonts on iPad
+#   twitter.com/FontSquirrel/status/14855840545
+AddType		image/svg+xml			svg svgz
+AddEncoding	gzip				svgz
+
+# Webfonts
+AddType application/vnd.ms-fontobject		eot
+AddType application/x-font-ttf			ttf ttc
+AddType font/opentype				otf
+AddType application/x-font-woff			woff
+
+# Assorted types
+AddType	image/x-icon				ico
+AddType	image/webp				webp
+AddType	text/cache-manifest			appcache manifest
+AddType	text/x-component			htc
+AddType	application/xml				rss atom xml rdf
+AddType	application/x-chrome-extension		crx
+AddType	application/x-opera-extension		oex
+AddType	application/x-xpinstall			xpi
+AddType	application/octet-stream		safariextz
+AddType	application/x-web-app-manifest+json	webapp
+AddType	text/x-vcard				vcf
+AddType	application/x-shockwave-flash		swf
+AddType	text/vtt				vtt
+
+# --------------------------------------------------------------------------------------
+# Compression: http://code.google.com/speed/page-speed/docs/payload.html#GzipCompression
+# --------------------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE application/atom+xml
+	AddOutputFilterByType DEFLATE application/json
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/x-component
+	AddOutputFilterByType DEFLATE text/xml
+
+	# The following MIME types are in the process of registration
+	AddOutputFilterByType DEFLATE application/xslt+xml
+	AddOutputFilterByType DEFLATE image/svg+xml
+
+	# The following MIME types are NOT registered
+	AddOutputFilterByType DEFLATE application/mathml+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+
+	# JavaScript has various MIME types
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE text/ecmascript
+	AddOutputFilterByType DEFLATE text/javascript
+
+	# .ico files and other compressible images
+	AddOutputFilterByType DEFLATE image/vnd.microsoft.icon
+	AddOutputFilterByType DEFLATE image/x-icon
+	AddOutputFilterByType DEFLATE image/bmp
+	AddOutputFilterByType DEFLATE image/tiff
+	AddOutputFilterByType DEFLATE application/pdf
+
+	# compressible fonts (.woff is already compressed)
+	AddOutputFilterByType DEFLATE font/opentype
+	AddOutputFilterByType DEFLATE application/x-font-ttf
+	AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Enabling filename rewriting (file.XXX.ext) if URL rewriting is enabled
+# Otherwise URLs will use query strings (file.ext?v=XXX)
+#
+# More proxies cache assets if there is no query string
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	# Setting up an environment variable so your code can detect if mod_rewrite rules are executable
+	# in this folder and you can use file.123.jpg or you need to fall back to file.jpg?123
+	RewriteRule .					-	[E=URLVERSIONREWRITE:YES]
+
+	# Rewrites a version in file.123.jpg as well as timestamped version file.123_m_12345123512354.jpg
+	# to original file.jpg so you can use it instead of file.jpg?123 which isn\'t cached in some proxies.
+	RewriteCond %{REQUEST_FILENAME}			!-f
+	RewriteRule ^(.*)\.(\d+)(_m_\d+)?\.([^\.]+)$	$1.$4	[L,QSA]
+
+	# Rewrites a version in file.ac123fe.jpg to original file.jpg
+	# so you can use it instead of file.jpg?123 which isn\'t cached in some proxies.
+	# Used for hash-based URLs where having a timestamp is not necessary.
+	RewriteCond %{REQUEST_FILENAME}			!-f
+	RewriteRule ^(.*)\.([a-z\d]+)\.([^\.]+)$	$1.$3	[L,QSA]
+</IfModule>
+
+# -------------------------------------------------------------------------------------------------
+# Browser Caching: http://code.google.com/speed/page-speed/docs/caching.html#LeverageBrowserCaching
+#
+# Google recommends specifying the following for all cacheable resources:
+#
+#    1. Expires or Cache-Control max-age
+#
+# 	Set Expires to a minimum of one month, and preferably up to one year, in the future. (We
+# 	prefer Expires over Cache-Control: max-age because it is is more widely supported.) Do not
+# 	set it to more than one year in the future, as that violates the RFC guidelines.
+#
+#    2. Last-Modified or ETag
+#
+# 	Set the Last-Modified date to the last time the resource was changed. If the Last-Modified
+#	date is sufficiently far enough in the past, chances are the browser won\'t refetch it. 
+#
+# Per Google: "it is redundant to specify both Expires and Cache-Control: max-age, or to specify
+# both Last-Modified and ETag."
+# --------------------------------------------------------------------------------------------------
+<IfModule mod_expires.c>
+	ExpiresActive On
+
+	ExpiresByType application/json			"access plus 1 year"
+	ExpiresByType application/pdf			"access plus 1 year"
+	ExpiresByType application/x-shockwave-flash	"access plus 1 year"
+	ExpiresByType image/bmp 			"access plus 1 year"
+	ExpiresByType image/gif 			"access plus 1 year"
+	ExpiresByType image/jpeg 			"access plus 1 year"
+	ExpiresByType image/png 			"access plus 1 year"
+	ExpiresByType image/svg+xml 			"access plus 1 year"
+	ExpiresByType image/tiff 			"access plus 1 year"
+	ExpiresByType image/vnd.microsoft.icon 		"access plus 1 year"
+  	ExpiresByType image/x-icon			"access plus 1 year"
+	ExpiresByType text/css 				"access plus 1 year"
+	ExpiresByType video/x-flv 			"access plus 1 year"
+	ExpiresByType application/vnd.bw-fontobject	"access plus 1 year"
+	ExpiresByType application/x-font-ttf		"access plus 1 year"
+	ExpiresByType application/font-woff		"access plus 1 year"
+	ExpiresByType font/opentype			"access plus 1 year"
+	ExpiresByType image/webp			"access plus 1 year"
+
+	# The following MIME types are in the process of registration
+	ExpiresByType application/xslt+xml		"access plus 1 year"
+	ExpiresByType image/svg+xml			"access plus 1 year"
+
+	# The following MIME types are NOT registered
+	ExpiresByType application/mathml+xml		"access plus 1 year"
+	ExpiresByType application/rss+xml		"access plus 1 year"
+
+	# JavaScript has various MIME types
+	ExpiresByType application/x-javascript 		"access plus 1 year"
+	ExpiresByType application/javascript 		"access plus 1 year"
+	ExpiresByType text/ecmascript 			"access plus 1 year"
+	ExpiresByType text/javascript 			"access plus 1 year"
+</IfModule>
+
+# TODO: Set Last-Modified per Google\'s recommendation to complete browser caching
+
+# -------------------------------------------------------------------------
+# Disabling ETags as they are most likely misconfigured and
+# do not add functionalit beyond Last-Modified
+# -------------------------------------------------------------------------
+<IfModule mod_headers.c>
+	# Try removing etag headers (if it\'s coming from proxy for example)
+	Header unset ETag
+</IfModule>
+
+# Remove ETags
+FileETag None
+		';
+		$new_rules = $flagship_rewrite_rules . $rules;
 		return $new_rules;
 	 }
 	 

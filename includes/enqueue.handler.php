@@ -153,7 +153,6 @@ class EnqueueHandler {
 			$stylesheet_info = pathinfo($current_stylesheet);
 			if($stylesheet_info['extension'] == 'css' && filesize($current_stylesheet) != false) {
 				$handle = fopen($current_stylesheet, 'r');
-				$minified_css .= "/* --- {$stylesheet} --- */";
 					$buffered_css = fread($handle, filesize($current_stylesheet));
 					if($args['location'] == 'child')
 						$buffered_css = preg_replace("/\.\.(?=[^url(]*?\))/", self::child_theme_dir(), $buffered_css);
@@ -164,9 +163,18 @@ class EnqueueHandler {
 			}
 		}
 		//Strip out line breaks.
+		//All at once...testing.
+		//$minified_css = preg_replace("/(\/\*.*?\*\/)|\s+(?![^\{\}]*\})|(\t|\r|\r\n|\n)/s", "", $minified_css);
+		
+		//Remove comments
+		$minified_css = preg_replace("/(\/\*.*?\*\/)/s", "", $minified_css);
+		//Remove tabs, lime breaks.
 		$minified_css = str_replace(array("\r\n", "\r", "\n", "\t"), '', $minified_css);
+		//Remove spaces after colons
 		$minified_css = str_replace(': ', ':', $minified_css);
+		//Uhh
 		$minified_css = preg_replace("/\s+(?![^\{\}]*\})/x", "", $minified_css);
+		
 		//Save it.
 		$write_handle = fopen(FLAGSHIP_DIR_PATH.'/css/flagship.min.css', 'w+');
 		if(!fwrite($write_handle, $minified_css))

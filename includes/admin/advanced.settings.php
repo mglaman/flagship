@@ -24,17 +24,24 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 							<tr align="top">
 								<th scope="row"><label>Canonical (Preferred) Domain</label></th>
 								<td>
-									<p><label class="radio"><input type="radio" value="true" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'true'); ?>/> Yes, use www.example.com</label></p>
-									<p><label class="radio"><input type="radio" value="false" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'false'); ?>/> No, use example.com</label></p>
+									<?php $stripped_domain = str_replace('http://', '', home_url()); ?>
+									<p><label class="radio"><input type="radio" value="<?php echo $stripped_domain ?>" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], $stripped_domain); ?>/> <?php echo $stripped_domain ?></label></p>
+									<p><label class="radio"><input type="radio" value="www.<?php echo $stripped_domain ?>" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'www.'.$stripped_domain); ?>/> www.<?php echo $stripped_domain ?></label></p>
 								</td>
 							</tr>
-							<tr align="top">
+							<tr align="top" class="webmaster-tools">
 								<th scope="row"><label for="google_verify">Google Verify Code:</label></th>
 								<td><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></p></td>
 							</tr>
-							<tr align="top">
+							<tr align="top" class="webmaster-tools">
 								<th scope="row"><label for="bing_verify">Bing Verify Code:</label></th>
 								<td><input type="text" id="bing_verify" name="flagship[seo][bing_verify]" value="<?php echo $theme_variables['seo']['bing_verify'] ?>" /></td>
+							</tr>
+							<tr align="top" class="webmaster-tools">
+								<th scope="row"><label>Google+</label></th>
+									<td><input type="text" id="google_plus" name="flagship[seo][google_plus]" value="<?php echo $theme_variables['seo']['google_plus'] ?>" />
+										<p>Allows Google to associate your Google+ profile and your website.
+									</td>
 							</tr>
 						</tbody>
 					</table>
