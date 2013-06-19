@@ -75,6 +75,11 @@ class Flagship {
 		add_theme_support( 'post-formats', array( #@TODO: Enable/Disable from settings
 			'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 		) );
+		
+		if(is_user_logged_in() && current_user_can('manage_options') && isset($_GET['fs-rebuild'])) {
+			flagship_rebuild_minify_stylesheets();
+		}
+		
 	}
 	
 	public static function get_theme_variables($refresh = false) {

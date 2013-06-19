@@ -172,8 +172,8 @@ class EnqueueHandler {
 		if(!fwrite($write_handle, $minified_css))
 			return false; //Uh oh couldn't save :(
 		fclose($write_handle);
-		
-		return true;
+		header('Location: '. get_home_url());
+		//return true;
 	}
 	protected static function child_theme_dir() {
 		$stylesheet_directory = get_stylesheet_directory_uri();
