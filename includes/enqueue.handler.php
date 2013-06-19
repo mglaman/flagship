@@ -30,6 +30,8 @@ class EnqueueHandler {
 				'location' => 'core')
 		);
 		# @TODO: Need to add weight to stylesheets, otherwise things could get messy.
+		// To register child theme style, create a similar array like above, but specify location as 'child'
+		// To register plugin styles, specify location as 'plugin' and add value 'path' and provide a path to your images folder.
 		do_action_ref_array('flagship_add_enqueue_styles', array( &$flagship_stylesheets ));
 		# @TODO: Sort stylesheet array by weight value.
 		self::$styles = $flagship_stylesheets;
@@ -152,7 +154,12 @@ class EnqueueHandler {
 			if($stylesheet_info['extension'] == 'css' && filesize($current_stylesheet) != false) {
 				$handle = fopen($current_stylesheet, 'r');
 				$minified_css .= "/* --- {$stylesheet} --- */";
-				$minified_css .= fread($handle, filesize($current_stylesheet));
+					$buffered_css = fread($handle, filesize($current_stylesheet));
+					if($args['location'] == 'child')
+						$buffered_css = preg_replace("/\.\.(?=[^url(]*?\))/", self::child_theme_dir(), $buffered_css);
+					elseif($args['location'] != 'core' && isset($args['path']) && !empty($args['path']))
+						$buffered_css = preg_replace("/\.\.(?=[^url(]*?\))/", $args['path'], $buffered_css);
+				$minified_css .= $buffered_css;
 				fclose($handle);
 			}
 		}
@@ -167,6 +174,12 @@ class EnqueueHandler {
 		fclose($write_handle);
 		
 		return true;
+	}
+	protected static function child_theme_dir() {
+		$stylesheet_directory = get_stylesheet_directory_uri();
+		$home_url = home_url();
+		$relative_url_replace = str_replace($home_url, '', $stylesheet_directory);
+		return $relative_url_replace;
 	}
 
 
