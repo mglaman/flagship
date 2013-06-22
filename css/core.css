@@ -103,9 +103,12 @@ img {
 		box-shadow: 1px 1px 0 rgba(0,0,0,0.2)
 	}
 #primary-menu {
-	height: 0;
+	max-height: 0;
 	overflow: hidden;
 }
+	#primary-menu > li {
+		display: block;
+	}
 ul.primary.menu {
 	list-style: none;
 	margin: 0;

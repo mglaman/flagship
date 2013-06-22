@@ -7,7 +7,7 @@
     		//Check if menu is already opened.
     		displayHeight = (nav.height() > 0) ? 0 : displayHeight;
     		nav.animate({
-    			height: displayHeight
+    			maxHeight: displayHeight
     		});
 		});
     });

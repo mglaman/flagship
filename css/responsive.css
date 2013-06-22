@@ -85,8 +85,10 @@
 		display: none;
 	}
 	#primary-menu {
-		display: block;
-		position: inherit;
+		max-height: none !important;
+	}
+	#primary-menu.inline > li {
+		display: inline-block;
 	}
 }
 
