@@ -9,6 +9,11 @@
 <?php flagship_zone_start_wrapper(); ?>
 	<div <?php flagship_zone_attribtutes(); ?>>
 		<?php if(!flagship_zone_widgets()) : //Default navigation if no widgets?>
+			<div id="nav-toggle" class="clear">
+				<hr />
+				<hr />
+				<hr />
+			</div>
 	  		<?php flagship_primary_navigation(); ?>
 	  	<?php endif; ?>
 	 </div>

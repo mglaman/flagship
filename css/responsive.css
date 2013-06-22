@@ -80,6 +80,14 @@
 	.right-13 { padding-right: 585px; }
 	.right-14 { padding-right: 630px; }
 	.right-15 { padding-right: 675px; }
+	
+	#nav-toggle {
+		display: none;
+	}
+	#primary-menu {
+		display: block;
+		position: inherit;
+	}
 }
 
 /*==========================

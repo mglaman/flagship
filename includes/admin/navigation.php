@@ -29,12 +29,18 @@ function select_one_sixteen($current_value) { ?>
 						<div class="handlediv" title="Click to toggle"><br></div>
 						<h3 class="hndle fancy-title"><span>Navigation</span></h3>
 						<div class="inside">
-							These settings allow you to adjust the built-in WordPress navigation menu settings.
-							<p><label>Style: <select name="flagship[navigation][type]" style="width:80%;">
-													<option value="horizontal" <?php selected($theme_variables['navigation']['type'], 'horizontal'); ?>>Horizontal</option>
-													<option value="vertical" <?php selected($theme_variables['navigation']['type'], 'vertical'); ?>>Vertical</option>
-											</select>
-							</label></p>
+							<table class="form-table">
+								<tr align="top">
+									<th scope="row"><label for="orientation">Menu's Orientation</label></th>
+									<td>
+										<select id="orientation" name="flagship[navigation][type]" style="width:80%;">
+											<option value="horizontal" <?php selected($theme_variables['navigation']['type'], 'horizontal'); ?>>Horizontal</option>
+											<option value="vertical" <?php selected($theme_variables['navigation']['type'], 'vertical'); ?>>Vertical</option>
+										</select>
+										<p>These settings allow you to adjust the built-in WordPress navigation menu settings.</p>
+									</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
