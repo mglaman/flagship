@@ -59,7 +59,7 @@ class EnqueueHandler {
 			//),
 			
 		);
-		do_action('flagship_add_enqueue_scripts', $flagship_scripts);
+		do_action_ref_array('flagship_add_enqueue_scripts', array( &$flagship_scripts));
 		self::$scripts = $flagship_scripts;
 	 }
 	
@@ -102,6 +102,7 @@ class EnqueueHandler {
 			self::gather_scripts();
 		
 		foreach(self::$scripts as $javascripts => $args) {
+			#@TODO: Fix up like styles, child theme cannot hook into this.
 			wp_enqueue_script($args['handle'], FLAGSHIP_JS_PATH . '/' . $javascripts, $args['deps'], $args['ver']);
 			
 			//If we have a conditional load.
@@ -119,6 +120,7 @@ class EnqueueHandler {
 		//wp_enqueue_style('noto-serif-font', 'http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic');
 		//wp_enqueue_style('raleway-font', ''http://fonts.googleapis.com/css?family=Raleway:400,600');
 		wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
+		#@TODO: create hook so user only needs to add to an array with ?family= ?
 	}
 	
 	/**
@@ -155,7 +157,9 @@ class EnqueueHandler {
 				$handle = fopen($current_stylesheet, 'r');
 					$buffered_css = fread($handle, filesize($current_stylesheet));
 					if($args['location'] == 'child')
-						$buffered_css = preg_replace("/\.\.(?=[^url(]*?\))/", self::child_theme_dir(), $buffered_css);
+						$buffered_css = preg_replace("/\.\.(?=[^url(*?\)]*)/", self::child_theme_dir(), $buffered_css);
+					//\.\.(?=[^url(*?\)]*)	new
+					//\.\.(?=[^url(]*?\)) old
 					elseif($args['location'] != 'core' && isset($args['path']) && !empty($args['path']))
 						$buffered_css = preg_replace("/\.\.(?=[^url(]*?\))/", $args['path'], $buffered_css);
 				$minified_css .= $buffered_css;
@@ -170,10 +174,10 @@ class EnqueueHandler {
 		$minified_css = preg_replace("/(\/\*.*?\*\/)/s", "", $minified_css);
 		//Remove tabs, lime breaks.
 		$minified_css = str_replace(array("\r\n", "\r", "\n", "\t"), '', $minified_css);
-		//Remove spaces after colons
-		$minified_css = str_replace(': ', ':', $minified_css);
+		//Remove spaces after colons and commas and before brackets. 
+		$minified_css = str_replace(array(': ', ', ', ' {'), array(':',',', '{'), $minified_css);
 		//Uhh
-		$minified_css = preg_replace("/\s+(?![^\{\}]*\})/x", "", $minified_css);
+		$minified_css = preg_replace("/(?![^\{\}]*\})/x", "", $minified_css);
 		
 		//Save it.
 		$write_handle = fopen(FLAGSHIP_DIR_PATH.'/css/flagship.min.css', 'w+');
