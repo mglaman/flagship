@@ -17,7 +17,7 @@ function select_one_sixteen($current_value) { ?>
 
 <div class="wrap flagship flagship-zones">
 <div id="icon-welcome" class="icon32" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/page-icon-dashboard.png);"></div>
-<h2>Flagship Zones</h2>
+<h2>Flagship Navigation</h2>
 <div id="poststuff">
 	<form method="post" action="">
 	<div class="metabox-holder">

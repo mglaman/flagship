@@ -445,6 +445,15 @@ FileETag None
 		    'meta' => array('class' => 'flagship-zones'),
 			'parent' => 'site-name',
 		  );
+		  $wp_admin_bar->add_node($args);
+		  
+		  $args = array(
+		    'id' => 'navigation',
+		    'title' => 'Navigation',
+		    'href' => admin_url('themes.php?page=fs-navigation'),
+		    'meta' => array('class' => 'flagship-navigation'),
+			'parent' => 'site-name',
+		  );
 		
 		  $wp_admin_bar->add_node($args);
 		}
