@@ -4,6 +4,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables = Flagship::get_theme_variables(true);
 	$theme_variables['seo'] = $_POST['flagship']['seo'];
 	$theme_variables['disable_widgets'] = $_POST['flagship']['disable_widgets'];
+	$theme_variables['error_page'] = $_POST['flagship']['error_page'];
 	Flagship::update_flagship_options($theme_variables);
 }
 ?>
@@ -47,7 +48,29 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 					</table>
 				</div>
 			</section> 
-			<section id="seo" class="postbox widgets">
+			<section id="four-oh-four" class="postbox four-oh-four">
+				<div class="handlediv" title="Click to toggle"><br></div>
+				<h3 class="hndle fancy-title"><span>404 Error Page</span></h3>
+				<div class="inside">
+					<div class="default-widgets clear">
+						<table class="form-table">
+							<tr align="top">
+								<th scope="row"><label for="error_title">Title</label></th>
+								<td><input id="error_title" name="flagship[error_page][title]" value="<?php echo $theme_variables['error_page']['title']; ?>" /></td>
+							</tr>
+							<tr align="top">
+								<th scope="row"><label for="error_search">Search</label></th>
+								<td><label><input type="checkbox" id="error_search" name="flagship[error_page][search]" value="on" <?php checked($theme_variables['error_page']['search'], 'on'); ?>/> Show the WordPress search form</label></td>
+							</tr>
+							<tr align="top">
+								<th scope="row"><label for="error_text">Message</label></th>
+								<td><textarea id="error_text" name="flagship[error_page][text]" style="width: 100%; height: 200px;"><?php echo $theme_variables['error_page']['text']; ?></textarea></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</section> 
+			<section id="widgets" class="postbox widgets">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle fancy-title"><span>Widget Preferences</span></h3>
 				<div class="inside">

@@ -63,7 +63,7 @@ function flagship_zone_end_wrapper() {
 function flagship_zone_widgets() {
 	dynamic_sidebar( Flagship::$current_zone );
 }
-
+ 
 /** Misc Functions **/
 
 function flagship_primary_navigation() {
@@ -115,6 +115,9 @@ function flagship_current_view() {
 	elseif( is_tax() ) {
 		#@TODO: Check if loop-taxonomy-name exists, set template as that file. Else fallback to this
 		return 'taxonomy';
+	}
+	elseif( is_404() ) {
+		return '404';
 	}
 	else {
 		return 'index';
