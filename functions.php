@@ -82,6 +82,9 @@ class Flagship {
 		}
 		
 		add_filter('the_generator', create_function( '', 'return "";' ) );
+		
+		//Adds first, last, middle classes to navigation menus along with other tweaks.
+		add_filter('wp_nav_menu_objects', array('Flagship','modify_menus'));
 	}
 
 	/**
@@ -99,6 +102,20 @@ class Flagship {
 		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www']))
 			echo '<link rel="canonical" href="http://'.self::$theme_options['seo']['force_www'].'">' . PHP_EOL;
 		echo '<!-- End Flagship Theme Framework -->' .PHP_EOL;
+	}
+	
+	public static function modify_menus($items) {
+		$home_id = get_option('page_for_posts');
+		
+	    $items[1]->classes[] = 'first';
+	    $items[count($items)]->classes[] = 'last';
+		
+		foreach($items as &	$post_item) {
+			if($post_item->object_id == $home_id && ( 'post' == get_post_type() || is_category() ))
+				$post_item->classes[] = 'current-page-ancestor';
+		}
+		
+	    return $items;
 	}
 	
 	public static function get_theme_variables($refresh = false) {
