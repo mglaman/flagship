@@ -110,9 +110,11 @@ q:after {
 center,
 .aligncenter {
 	clear: both;
-	display: block;
 	margin-top: 12px;
 	margin-bottom: 12px;
+}
+.wp-caption.aligncenter {
+	margin: 0 auto;
 }
 
 /** Tables **/

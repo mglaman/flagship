@@ -16,7 +16,7 @@
  * Currently does not support single-my-postype.php templating.
  *
  * @package Flagship
- * @since Flagship 0.1
+ * @since Flagship 0.2
  */
 $theme_variables = Flagship::get_theme_variables();
 $error_title = (isset($theme_variables['error_page']['title'])) ? $theme_variables['error_page']['title'] : 'Uh Oh! 404';

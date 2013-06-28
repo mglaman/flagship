@@ -158,6 +158,7 @@ class WidgetsHandler {
 	/** Params callback on setting widget params **/
 	public static function extend_widgets_sidebar_params($params) {
 		global $wp_registered_widgets;
+		
 	
 		$widget_id = $params[0]['widget_id'];
 	
@@ -165,7 +166,7 @@ class WidgetsHandler {
 			return $params;
 		
 		$before_widget_string = $params[0]['before_widget'];
-		$before_widget_replace = 'class="' . $widget_classes[$widget_id] .' ';
+		$before_widget_replace = 'class="' . self::$widget_classes[$widget_id] .' ';
 		$params[0]['before_widget'] = str_replace('class="', $before_widget_replace, $before_widget_string);
 	
 		return $params;

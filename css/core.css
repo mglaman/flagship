@@ -117,7 +117,8 @@ ul.primary.menu {
 /* Responsive Images & Embeds */
 .widget img,
 .entry-content img,
-.comment-content img {
+.comment-content img,
+.attachment-post-thumbnail {
 	max-width: 100%;
 	height: auto;
 	/* IE8 is amongst us. This should patch height issues on responsive images. */

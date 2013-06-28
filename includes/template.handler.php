@@ -66,6 +66,27 @@ function flagship_zone_widgets() {
  
 /** Misc Functions **/
 
+function flagship_post_class() {
+	if(has_post_thumbnail()) :
+		 post_class('featured-image'); 
+	else: 
+		post_class();
+	endif;
+}
+
+function flagship_link_pages() {
+	$args = array(
+		'before'           => '<div class="pagination">' . __('Pages:'),
+		'after'            => '</div>',
+		'link_before'      => '<span class="page-link">',
+		'link_after'       => '</span>',
+		'next_or_number'   => 'number', #@TODO: Set this to be fined within settings
+		'nextpagelink'     => __('Next page'),
+		'previouspagelink' => __('Previous page'),
+	);
+	wp_link_pages($args);
+}
+
 function flagship_primary_navigation() {
 	$theme_variables = Flagship::get_theme_variables();
 	$inline = $theme_variables['navigation']['type'];
