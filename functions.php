@@ -5,8 +5,8 @@
  * @package Flagship
  * @since Flagship 0.1
  */
- 
-//define(FLAGSHIP_DEBUG, TRUE);
+
+ define(FLAGSHIP_DEBUG, TRUE);
  
 //Define our directory paths
 if( ! defined(FLAGSHIP_DIR_PATH) )
@@ -85,6 +85,10 @@ class Flagship {
 		
 		//Adds first, last, middle classes to navigation menus along with other tweaks.
 		add_filter('wp_nav_menu_objects', array('Flagship','modify_menus'));
+		
+		//Load our widgets
+		#@TODO: Enable/Disable through settings.
+		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Child_Pages.php');
 	}
 
 	/**
@@ -110,10 +114,10 @@ class Flagship {
 	    $items[1]->classes[] = 'first';
 	    $items[count($items)]->classes[] = 'last';
 		
-		foreach($items as &	$post_item) {
-			if($post_item->object_id == $home_id && ( 'post' == get_post_type() || is_category() ))
-				$post_item->classes[] = 'current-page-ancestor';
-		}
+		// foreach($items as &	$post_item) {
+			// if($post_item->object_id == $home_id && ( 'post' == get_post_type() || is_category() ))
+				// $post_item->classes[] = 'current-page-ancestor';
+		// }
 		
 	    return $items;
 	}

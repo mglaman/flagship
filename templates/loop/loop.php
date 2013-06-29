@@ -24,9 +24,8 @@
 		<?php get_template_part( 'templates/content/content', get_post_format() ); ?>
 	<?php endwhile; ?>
 	
-	<nav id="page-navigation" class="navigation" role="navigation">
-		<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentytwelve' ); ?></h3>
-		<div class="nav-previous alignleft"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentytwelve' ) ); ?></div>
-		<div class="nav-next alignright"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?></div>
-	</nav><!-- #<?php echo $html_id; ?> .navigation -->
+	<nav id="loop-pages" role="navigation">
+		<div class="nav-previous alignleft"><?php next_posts_link( '<span class="pages-nav">&larr;</span> Previous' ); ?></div>
+		<div class="nav-next alignright"><?php previous_posts_link( 'More Recent <span class="pages-nav">&rarr;</span>'); ?></div>
+	</nav>
 <?php endif; ?>

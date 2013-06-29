@@ -144,3 +144,14 @@ object  {
 .google-maps img {
   max-width: none;
 }
+
+/** Content areas **/
+#loop-pages {
+	clear: both;
+}
+
+
+/** Navigation **/
+#primary-menu .sub-menu {
+	display: none;
+}
