@@ -27,7 +27,6 @@
 
 	<?php if ( is_single() ) : ?>
 	<footer class="entry-meta">
-		<?php twentythirteen_entry_meta(); ?>
 		<?php if ( get_the_author_meta( 'description' ) && is_multi_author() ) : ?>
 			<?php get_template_part( 'author-bio' ); ?>
 		<?php endif; ?>
