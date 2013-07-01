@@ -28,6 +28,7 @@ require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 require(FLAGSHIP_INC_PATH . '/widgets.handler.php');
 require(FLAGSHIP_INC_PATH . '/zones.handler.php');
+require(FLAGSHIP_INC_PATH . '/theme.hooks.php');
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
