@@ -18,6 +18,8 @@
  * @package Flagship
  * @since Flagship 0.1
  */
+ 
+do_action('flagship_before_loop');
 ?>
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); ?>
@@ -28,4 +30,6 @@
 		<div class="nav-previous alignleft"><?php next_posts_link( '<span class="pages-nav">&larr;</span> Previous' ); ?></div>
 		<div class="nav-next alignright"><?php previous_posts_link( 'More Recent <span class="pages-nav">&rarr;</span>'); ?></div>
 	</nav>
-<?php endif; ?>
+<?php endif; 
+
+do_action('flagship_after_loop'); ?>
