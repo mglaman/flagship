@@ -75,6 +75,8 @@ function flagship_post_class() {
 }
 
 function flagship_link_pages() {
+	if(!is_singular())
+		return false;
 	$args = array(
 		'before'           => '<div class="pagination">' . __('Pages:'),
 		'after'            => '</div>',
@@ -106,19 +108,34 @@ function flagship_primary_navigation() {
  * Flagship will not utilize typical use of archive.php for archive pages. We need to let zone-content know what loop to load.
  */
 function flagship_current_view() {
+	global $post, $wp_query;
 	if( is_home() ) {
 		return 'blog';
 	}
-	elseif( is_archive() ) {
-		#@TODO: Check if loop-archive-name exists, set template as that file. Else fallback to this
-		return 'archive';
+	elseif( is_category() ) {
+		//Ex filename: templates/loop/loop-category-slug.php
+		$term = $wp_query->query_vars['category_name'];
+		return 'category-'.$term;
+	}
+	elseif( is_tag() ) {
+		//Ex filename: templates/loop/loop-tag-slug.php
+		$tag = $wp_query->query_vars['tag'];
+		return 'tag-'.$tag;
+	}
+	elseif( is_tax() ) {
+		//Ex filename: templates/loop/loop-taxonomy-slug.php
+		$tax = $wp_query->query_vars['taxonomy'];
+		return 'taxonomy-'.$tax;
 	}
 	elseif( is_author() ) {
-		return 'author';
+		//Ex filename: templates/loop/loop-author-username.php
+		$author = $wp_query->query_vars['author_name'];
+		return 'author-'.$author;
 	}
-	elseif( is_category() ) {
-		#@TODO: Check if loop-category-name exists, set template as that file. Else fallback to this
-		return 'category';
+	elseif( is_archive() ) {
+		//Ex filename: templates/loop/loop-archive-post-type.php
+		$post_type = get_post_type($post->ID);
+		return 'archive-'.$post_type;
 	}
 	elseif( is_attachment() ) {
 		return 'attachment';
@@ -129,13 +146,8 @@ function flagship_current_view() {
 	elseif( is_single() ) {
 		return 'single';
 	}
-	elseif( is_tag() ) {
-		#@TODO: Check if loop-tag-name exists, set template as that file. Else fallback to this
-		return 'tag';
-	}
-	elseif( is_tax() ) {
-		#@TODO: Check if loop-taxonomy-name exists, set template as that file. Else fallback to this
-		return 'taxonomy';
+	elseif( is_search() ) {
+		return 'search';
 	}
 	elseif( is_404() ) {
 		return '404';
