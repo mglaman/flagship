@@ -5,6 +5,20 @@
  * @package Flagship
  * @since Flagship 0.3
  */
+
+/**
+ * Loop Templates
+ */
+add_action('flagship_before_loop', 'flagship_before_loop');
+function flagship_before_loop() {
+}
+add_action('flagship_after_loop', 'flagship_after_loop');
+function flagship_after_loop() { ?>
+	<nav id="loop-pages" role="navigation">
+		<div class="nav-previous alignleft"><?php next_posts_link( '<span class="pages-nav">&larr;</span> Previous' ); ?></div>
+		<div class="nav-next alignright"><?php previous_posts_link( 'More Recent <span class="pages-nav">&rarr;</span>'); ?></div>
+	</nav>
+<?php }
  
 /**
  * Content Templates
