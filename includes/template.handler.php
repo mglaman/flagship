@@ -111,6 +111,13 @@ function flagship_primary_navigation() {
  */
 function flagship_current_view() {
 	global $post, $wp_query;
+
+	#Plugin specific routing
+	if(function_exists('is_woocommerce') && is_woocommerce()) {
+		return 'woocommerce';
+	}
+
+	# WordPress Conditionals
 	if( is_home() ) {
 		return 'blog';
 	}
