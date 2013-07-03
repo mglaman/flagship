@@ -110,6 +110,9 @@ class EnqueueHandler {
 				$wp_scripts->add_data( $args['handle'], 'conditional', $args['condition'] );
 				
 		}
+		# WordPress comment script.
+		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
+			wp_enqueue_script( 'comment-reply' );
 	}
 	/**
 	 * Enqueues selected Google Font(s)

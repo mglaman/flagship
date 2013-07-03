@@ -6,29 +6,32 @@
  * @since Flagship 0.1
  */
 
- define(FLAGSHIP_DEBUG, TRUE);
+ define("FLAGSHIP_DEBUG", TRUE);
 
 //Define our directory paths
-if( ! defined(FLAGSHIP_DIR_PATH) )
-	define(FLAGSHIP_DIR_PATH, get_template_directory());
-if( ! defined(FLAGSHIP_INC_PATH) )
-	define(FLAGSHIP_INC_PATH, FLAGSHIP_DIR_PATH . '/includes');
-if( ! defined(FLAGSHIP_TPL_PATH) )
-	define(FLAGSHIP_TPL_PATH, FLAGSHIP_DIR_PATH . '/templates');
+if( ! defined("FLAGSHIP_DIR_PATH") )
+	define("FLAGSHIP_DIR_PATH", get_template_directory());
+if( ! defined("FLAGSHIP_INC_PATH") )
+	define("FLAGSHIP_INC_PATH", FLAGSHIP_DIR_PATH . '/includes');
+if( ! defined("FLAGSHIP_TPL_PATH") )
+	define("FLAGSHIP_TPL_PATH", FLAGSHIP_DIR_PATH . '/templates');
 
 //Define our URL paths
-if( ! defined(FLAGSHIP_URL_PATH) )
-	define(FLAGSHIP_URL_PATH,  get_template_directory_uri());
-if( ! defined(FLAGSHIP_CSS_PATH) )
-	define(FLAGSHIP_CSS_PATH, FLAGSHIP_URL_PATH . '/css');
-if( ! defined(FLAGSHIP_JS_PATH) )
-	define(FLAGSHIP_JS_PATH, FLAGSHIP_URL_PATH . '/js');
+if( ! defined("FLAGSHIP_URL_PATH") )
+	define("FLAGSHIP_URL_PATH",  get_template_directory_uri());
+if( ! defined("FLAGSHIP_CSS_PATH") )
+	define("FLAGSHIP_CSS_PATH", FLAGSHIP_URL_PATH . '/css');
+if( ! defined("FLAGSHIP_JS_PATH") )
+	define("FLAGSHIP_JS_PATH", FLAGSHIP_URL_PATH . '/js');
 
 require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 require(FLAGSHIP_INC_PATH . '/widgets.handler.php');
 require(FLAGSHIP_INC_PATH . '/zones.handler.php');
 require(FLAGSHIP_INC_PATH . '/theme.hooks.php');
+
+//If the theme switched, we want to wipe any Flagship data so the child theme's config can be used.
+add_action('switch_theme', array('Flagship', 'remove_current_config'));
 
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
@@ -479,7 +482,11 @@ FileETag None
 		  );
 
 		  $wp_admin_bar->add_node($args);
-		}
+	}
+
+	public static function remove_current_config() {
+		delete_option('flagship');
+	}
 }
 
 ?>
