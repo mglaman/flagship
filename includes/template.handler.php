@@ -61,7 +61,9 @@ function flagship_zone_end_wrapper() {
 }
 
 function flagship_zone_widgets() {
-	dynamic_sidebar( Flagship::$current_zone );
+	if(dynamic_sidebar( Flagship::$current_zone ))
+		return true;
+	return false;
 }
  
 /** Misc Functions **/

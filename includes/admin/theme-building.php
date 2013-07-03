@@ -1,3 +1,13 @@
+<?php
+if(isset($_POST['action']) && $_POST['action'] == 'update') {
+	$options_config = get_option('flagship');
+	$options_config = json_encode($options_config, JSON_PRETTY_PRINT);
+	$write_handle = fopen(get_stylesheet_directory().'/config.json', 'w+');
+	fwrite($write_handle, $options_config);
+	fclose($write_handle);
+}
+?>
+
 <div id="flagship-configuration" class="wrap">
 <div id="icon-welcome" class="icon32" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/page-icon-config.png);"></div>
 <h2>Flagship Theme Building</h2>
@@ -28,6 +38,12 @@
 			print_r($options_config);
 ?>
 	</pre>
+	<?php if(is_child_theme()) : ?>
+	<form action="admin.php?page=fs-theme-building" method="post">
+		<?php settings_fields( 'theme-building' ); ?>
+		<input type="submit" name="export_config" value="Export and Write Config for Child Theme"  class="button"/>
+	</form>
+	<?php endif; ?>
 </div>
 <br style="clear: both;" />
 </div>

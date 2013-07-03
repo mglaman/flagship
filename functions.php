@@ -35,7 +35,7 @@ add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
 add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
 add_action( 'wp_head', array('Flagship', 'hook_wp_head'));
 if( !is_admin() ) {
-	add_action( 'admin_bar_menu', array('FLagship', 'toolbar_zones_menu_item'), 999 );
+	add_action( 'admin_bar_menu', array('Flagship', 'toolbar_zones_menu_item'), 999 );
 }
 
 class Flagship {
@@ -105,8 +105,8 @@ class Flagship {
 			echo '<meta name="msvalidate.01" content="'.self::$theme_options['seo']['bing_verify'].'">' . PHP_EOL;
 		if(isset(self::$theme_options['seo']['google_plus']) && !empty(self::$theme_options['seo']['google_plus']))
 			echo '<link rel="publisher" href="'.self::$theme_options['seo']['google_plus'].'">' . PHP_EOL;
-		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www']))
-			echo '<link rel="canonical" href="http://'.self::$theme_options['seo']['force_www'].'">' . PHP_EOL;
+		//if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www']))
+		//	echo '<link rel="canonical" href="http://'.self::$theme_options['seo']['force_www'].'">' . PHP_EOL;
 		echo '<!-- End Flagship Theme Framework -->' .PHP_EOL;
 	}
 
