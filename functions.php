@@ -1,13 +1,13 @@
 <?php
 /**
  * A bunch of goodness.
- * 
+ *
  * @package Flagship
  * @since Flagship 0.1
  */
 
  define(FLAGSHIP_DEBUG, TRUE);
- 
+
 //Define our directory paths
 if( ! defined(FLAGSHIP_DIR_PATH) )
 	define(FLAGSHIP_DIR_PATH, get_template_directory());
@@ -39,18 +39,18 @@ if( !is_admin() ) {
 }
 
 class Flagship {
-	
+
 	//Arrays to hold theme options
 	protected static $theme_options = array();
 	public static $theme_zones 	= array();
 	public static $theme_areas 	= array();
-	
+
 	//Various template variable storage, direct access for now.
 	public static $current_zone = null;
-	
+
 	//Public info on current theme setup.
 	public static $config_source = 'core';
-	
+
 	/**
 	 * Grabs our theme variables from database, populates class variables.
 	 */
@@ -58,45 +58,46 @@ class Flagship {
 		self::load_theme_variables();
 		self::$theme_areas = self::$theme_options['areas'];
 		self::$theme_zones = self::$theme_options['zones'];
-		
+
 		//Register our navigation menu
 		register_nav_menu( 'primary', 'Main Navigation' );
-		
+
 		//Adds our canonical htaccess rule.
 		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www'])) {
 			# @TODO: Fix this. Throwing 500
 			//add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
 		}
-		
+
 		//Loads our widget extender plugin.
 		WidgetsHandler::initialize();
-		
+
 		//Theme support
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'automatic-feed-links' ); #@TODO: Include by default, add option to disable
 		add_theme_support( 'post-formats', array( #@TODO: Enable/Disable from settings
 			'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 		) );
-		
+
 		if(is_user_logged_in() && current_user_can('manage_options') && isset($_GET['fs-rebuild'])) {
 			flagship_rebuild_minify_stylesheets();
 		}
-		
+
 		add_filter('the_generator', create_function( '', 'return "";' ) );
-		
+
 		//Adds first, last, middle classes to navigation menus along with other tweaks.
 		add_filter('wp_nav_menu_objects', array('Flagship','modify_menus'));
-		
+
 		//Load our widgets
 		#@TODO: Enable/Disable through settings.
 		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Child_Pages.php');
+        require(FLAGSHIP_DIR_PATH.'/widgets/FS_Site_Title.php');
 	}
 
 	/**
 	 * Allows theme to dump stuff into wp_head
 	 */
 	public static function hook_wp_head() {
-		
+
 		echo '<!-- Flagship Theme Framework -->'. PHP_EOL;
 		if(isset(self::$theme_options['seo']['google_verify']) && !empty(self::$theme_options['seo']['google_verify']))
 			echo '<meta name="google-site-verification" content="'.self::$theme_options['seo']['google_verify'].'">'. PHP_EOL;
@@ -108,51 +109,51 @@ class Flagship {
 			echo '<link rel="canonical" href="http://'.self::$theme_options['seo']['force_www'].'">' . PHP_EOL;
 		echo '<!-- End Flagship Theme Framework -->' .PHP_EOL;
 	}
-	
+
 	public static function modify_menus($items) {
 		$home_id = get_option('page_for_posts');
-		
+
 	    $items[1]->classes[] = 'first';
 	    $items[count($items)]->classes[] = 'last';
-		
+
 		// foreach($items as &	$post_item) {
 			// if($post_item->object_id == $home_id && ( 'post' == get_post_type() || is_category() ))
 				// $post_item->classes[] = 'current-page-ancestor';
 		// }
-		
+
 	    return $items;
 	}
-	
+
 	public static function get_theme_variables($refresh = false) {
 		if($refresh)
 			self::launch_theme();
 		return self::$theme_options;
 	}
-	
+
 	/**
 	 * Gets list of areas in config
 	 */
 	public static function config_area_list() {
 		return self::$theme_areas;
 	}
-	
+
 	/**
 	 * Returns array of zones that belong to an area, by set weight
 	 */
 	public static function area_zone_list($area) {
 		$area_zone_array = array();
 		$sort_column = array();
-		
+
 		foreach( self::$theme_zones as $zone => $attr ) {
 			if($attr['area'] == $area && !empty($attr['enabled']))
 				$area_zone_array[$zone] = $attr;
 		}
-		
+
 		foreach( $area_zone_array as $key => $value) {
 			$sort_column[$key] = $value['weight'];
 		}
 		array_multisort($sort_column, SORT_ASC, $area_zone_array);
-		
+
 		return $area_zone_array;
 	}
 	public static function disabled_zone_list($area) {
@@ -163,22 +164,22 @@ class Flagship {
 		}
 		return $area_zone_array;
 	}
-	
+
 	protected static function load_theme_variables() {
 		//@NOTE: Commenting out below forces theme to load config.json versus database values, which in turn saves new config!
 		# @TODO: Create option to force refresh from config.json
 		$theme_variables = get_option('flagship');
-		
+
 		//Lets make sure we didn't get an empty response.
 		if(empty($theme_variables)) {
 			$config_path = get_template_directory() . '/config.core.json';
-			
+
 			//If the child theme has a config, load that instead.
 			if(file_exists(get_stylesheet_directory() . '/config.json') && filesize(get_stylesheet_directory() . '/config.json') > 0) {
 				$config_path = get_stylesheet_directory() . '/config.json';
-				self::$config_source = 'child';	
+				self::$config_source = 'child';
 			}
-			
+
 			//Lets open up that config and build up our zones!
 			$config_handler = fopen($config_path, 'r');
 			$config_data = fread($config_handler, filesize($config_path));
@@ -190,13 +191,13 @@ class Flagship {
 		}
 		//Use 'em
 		self::$theme_options = $theme_variables;
-	} 
-	
+	}
+
 	public static function update_flagship_options($theme_variables) {
 		update_option('flagship', $theme_variables);
 		Flagship::get_theme_variables(true);
 	}
-	
+
 	/**
 	 * Tells WordPress to add our theme's menu items to the dashboard
 	 */
@@ -204,7 +205,7 @@ class Flagship {
 		add_menu_page('Dashboard', 'Flagship', 'edit_theme_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
 			add_submenu_page('flagship', 'Settings', 'Advanced Settings', 'edit_theme_options', 'fs-settings', array('Flagship', 'get_admin_settings_page'));
 			add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'fs-theme-building', array('Flagship', 'get_admin_theme_building_page'));
-			
+
 		add_theme_page('Flagship Zones', 'Zones', 'edit_theme_options', 'fs-zones', array('Flagship', 'get_admin_zones_page'));
 		add_theme_page('Flagship Navigation', 'Navigation', 'edit_theme_options', 'fs-navigation', array('Flagship', 'get_admin_nav_page'));
 	}
@@ -245,12 +246,12 @@ class Flagship {
 		);
 		return $default_widgets;
 	}
-	
+
 	/**
 	 * Hooks into rewrite rules.
 	 */
 	 public static function modify_rewrite_rules( $rules ) {
-	 	/*$force_preferred = 
+	 	/*$force_preferred =
 	 	"<IfModule mod_rewrite.c>
 			RewriteEngine On";
 	 	if(self::$theme_options['seo']['force_www'] == "true") {
@@ -260,10 +261,10 @@ class Flagship {
 	 		$force_preferred .= "RewriteCond %{HTTP_HOST} !^%{HTTP_HOST}$ [NC]
 								RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]";
 	 	}
-		$force_preferred .= 
+		$force_preferred .=
 		"</IfModule>";
 		echo $new_rules = $force_preferred . $rules;*/
-		
+
 		$flagship_rewrite_rules = '
 # This .htaccess file is used to speed up this website
 # See https://github.com/sergeychernyshev/.htaccess
@@ -399,7 +400,7 @@ AddType	text/vtt				vtt
 #    2. Last-Modified or ETag
 #
 # 	Set the Last-Modified date to the last time the resource was changed. If the Last-Modified
-#	date is sufficiently far enough in the past, chances are the browser won\'t refetch it. 
+#	date is sufficiently far enough in the past, chances are the browser won\'t refetch it.
 #
 # Per Google: "it is redundant to specify both Expires and Cache-Control: max-age, or to specify
 # both Last-Modified and ETag."
@@ -458,7 +459,7 @@ FileETag None
 		$new_rules = $flagship_rewrite_rules . $rules;
 		return $new_rules;
 	 }
-	 
+
 	 public static function toolbar_zones_menu_item( $wp_admin_bar ) {
 		  $args = array(
 		    'id' => 'zones',
@@ -468,7 +469,7 @@ FileETag None
 			'parent' => 'site-name',
 		  );
 		  $wp_admin_bar->add_node($args);
-		  
+
 		  $args = array(
 		    'id' => 'navigation',
 		    'title' => 'Navigation',
@@ -476,7 +477,7 @@ FileETag None
 		    'meta' => array('class' => 'flagship-navigation'),
 			'parent' => 'site-name',
 		  );
-		
+
 		  $wp_admin_bar->add_node($args);
 		}
 }
