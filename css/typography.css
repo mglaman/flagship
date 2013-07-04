@@ -248,7 +248,10 @@ ol.inline > li {
 }
 
 /** Entry Formatting **/
-
+.entry-title {
+	-ms-word-wrap: break-word;
+	word-wrap: break-word;
+}
 .entry-content img { 
 	border-radius: 3px;
 }
