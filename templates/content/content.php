@@ -22,13 +22,13 @@
 		<?php do_action('flagship_content_after_header'); ?>
 		
 		<?php if ( is_search() ) : // Only display Excerpts for Search ?>
-		<div class="entry-summary clear">
+		<div class="entry-summary">
 			<?php do_action('flagship_content_before_excerpt'); ?>
 			<?php the_excerpt(); ?>
 			<?php do_action('flagship_content_after_excerpt'); ?>
 		</div><!-- .entry-summary -->
 		<?php else : ?>
-		<div class="entry-content clear">
+		<div class="entry-content">
 			<?php do_action('flagship_content_before_content'); ?>
 			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?>
 			<?php do_action('flagship_content_after_content'); ?>
