@@ -21,7 +21,7 @@
 		
 		<?php do_action('flagship_content_after_header'); ?>
 		
-		<?php if ( is_search() ) : // Only display Excerpts for Search ?>
+		<?php if ( flagship_display_excerpt() ) : // Only display Excerpts for Search ?>
 		<div class="entry-summary">
 			<?php do_action('flagship_content_before_excerpt'); ?>
 			<?php the_excerpt(); ?>

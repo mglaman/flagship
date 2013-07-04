@@ -67,6 +67,36 @@ function flagship_zone_widgets() {
 }
  
 /** Misc Functions **/
+function flagship_display_excerpt() {
+	$theme_variables = Flagship::get_theme_variables();
+	$display = null;
+	//If the settings aren't empty, figure it out
+	if(!empty($theme_variables['exerpt_display'])) {
+		foreach($theme_variables['exerpt_display'] as $conditional => $value)
+			if($conditional()) {
+				$display = true; 
+				break;
+			}
+	} else {
+		//Default to search
+		$display = is_search();
+	}
+	//Allow child themes to override the final decision
+	apply_filters('flagship_display_excerpt', $display);
+
+	return $display;
+}
+
+add_filter('excerpt_more', 'flagship_excerpt_more_filter');
+function flagship_excerpt_more_filter() {
+	$theme_variables = Flagship::get_theme_variables();
+
+	$string = '.. <a href="'.get_permalink().'" title="'.get_the_title().'" class="excerpt-read-more">';
+	$string .= (!empty($theme_variables['excerpt_read_more'])) ? $theme_variables['excerpt_read_more'] : 'Read More';
+	$string .= '</a>';
+	return $string;
+}
+
 
 function flagship_post_class() {
 	if(has_post_thumbnail()) :

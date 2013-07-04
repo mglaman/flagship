@@ -8,6 +8,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables['disable_widgets'] = $_POST['flagship']['disable_widgets'];
 	$theme_variables['error_page'] = $_POST['flagship']['error_page'];
 	$theme_variables['google_font'] = $_POST['flagship']['google_font'];
+	$theme_variables['exerpt_display'] = $_POST['flagship']['exerpt_display'];
+	$theme_variables['excerpt_read_more'] = $_POST['flagship']['excerpt_read_more'];
 	Flagship::update_flagship_options($theme_variables);
 }
 ?>
@@ -100,7 +102,6 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 		<?php submit_button(); ?>
 		</div>
 		<div class="post-box-container flagship-right-column">
-
 			<div class="inside meta-box-sortables  ui-sortable">
 				<div class="postbox">
 					<div class="handlediv" title="Click to toggle"><br></div>
@@ -121,6 +122,35 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 						<?php if(isset($theme_variables['google_font']) && $theme_variables['google_font'] != '_none') : ?>
 						<p>Your website's default font has been set to <?php echo $supported_fonts[$theme_variables['google_font']]; ?></p>
 						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+			<div class="inside meta-box-sortables ui-sortable">
+				<div class="postbox">
+					<div class="handlediv" title="Click to toggle"><br></div>
+					<h3 class="hndle fancy-title"><span>Post Excerpt Options</span></h3>
+					<div class="inside">
+						<p>When should a post's excerpt be displayed?</p>
+						<ul>
+							<li><label class="checkbox">
+								<input type="checkbox" value="on" name="flagship[exerpt_display][is_home]" <?php checked($theme_variables['exerpt_display']['is_home'], 'on'); ?> />
+								 Blog landing page</label>
+							</li>
+							<li><label class="checkbox">
+								<input type="checkbox" value="on" name="flagship[exerpt_display][is_search]" <?php checked($theme_variables['exerpt_display']['is_search'], 'on'); ?> />
+								 Search results</label>
+							</li>
+							<li><label class="checkbox">
+								<input type="checkbox" value="on" name="flagship[exerpt_display][is_archive]" <?php checked($theme_variables['exerpt_display']['is_archive'], 'on'); ?> />
+								 Archives page</label>
+							</li>
+							<li><label class="checkbox">
+								<input type="checkbox" value="on" name="flagship[exerpt_display][is_category]" <?php checked($theme_variables['exerpt_display']['is_category'], 'on'); ?> />
+								 Category page</label>
+							</li>
+						</ul>
+						<p><label for="excerpt_read_more">Change "read more" link text on trimmed post excerpts.</a></p>
+						<input type="text" name="flagship[excerpt_read_more]" id="excerpt_read_more" value="<?php echo $theme_variables['excerpt_read_more']; ?>"  class="widefat"/>
 					</div>
 				</div>
 			</div>
