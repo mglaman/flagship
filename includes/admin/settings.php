@@ -7,6 +7,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables['seo'] = $_POST['flagship']['seo'];
 	$theme_variables['disable_widgets'] = $_POST['flagship']['disable_widgets'];
 	$theme_variables['error_page'] = $_POST['flagship']['error_page'];
+	$theme_variables['google_font'] = $_POST['flagship']['google_font'];
 	Flagship::update_flagship_options($theme_variables);
 }
 ?>
@@ -96,7 +97,35 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 				</div>
 				</div>
 			</section> 
-<?php submit_button(); ?>
+		<?php submit_button(); ?>
+		</div>
+		<div class="post-box-container flagship-right-column">
+
+			<div class="inside meta-box-sortables  ui-sortable">
+				<div class="postbox">
+					<div class="handlediv" title="Click to toggle"><br></div>
+					<h3 class="hndle fancy-title"><span>Google Fonts Support</span></h3>
+					<div class="inside">
+						<ul>
+							<li><label class="checkbox"><input type="radio" value="_none" name="flagship[google_font]" <?php checked($theme_variables['google_font'], '_none'); ?>/> None</label></li>
+						<?php $supported_fonts = array(
+								'fauna-one' => 'Fauna One',
+								'noto-serif' => 'Noto Serif',
+								'raleway' => 'Raleway',
+								'open-sans' => 'Open Sans',
+							); 
+						foreach($supported_fonts as $font_handle => $font_name) :?>
+							<li><label class="checkbox"><input type="radio" value="<?php echo $font_handle ?>" name="flagship[google_font]" <?php checked($theme_variables['google_font'], $font_handle); ?>/> <?php echo $font_name; ?></label></li>
+						<?php endforeach; ?>
+						</ul>
+						<?php if(isset($theme_variables['google_font']) && $theme_variables['google_font'] != '_none') : ?>
+						<p>Your website's default font has been set to <?php echo $supported_fonts[$theme_variables['google_font']]; ?></p>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 <script type="text/javascript">
     //<![CDATA[
     jQuery(document).ready( function($) { 

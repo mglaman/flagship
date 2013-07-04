@@ -118,11 +118,27 @@ class EnqueueHandler {
 	 * Enqueues selected Google Font(s)
 	 */
 	public static function enqueue_fonts() {
+		$theme_variables = Flagship::get_theme_variables();
+		switch($theme_variables['google_font']) {
+			case 'fauna-one':
+				wp_enqueue_style('fauna-one-font', 'http://fonts.googleapis.com/css?family=Fauna+One');
+				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Fauna One\"</style> ". PHP_EOL;' ) );
+			break;
+			case 'noto-serif':
+				wp_enqueue_style('noto-serif-font', 'http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic');
+				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Noto Serif\"</style> ". PHP_EOL;' ) );
+			break;
+			case 'raleway':
+				wp_enqueue_style('raleway-font', 'http://fonts.googleapis.com/css?family=Raleway:400,600');
+				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Raleway\"</style> ". PHP_EOL;' ) );
+			break;
+			case 'open-sans':
+				wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
+				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Open Sans\"</style> ". PHP_EOL;' ) );
+			break;
+		}
 		#@TODO: There wil be a form to pick and choose which fonts to enable/disable and add to list. Right now it's static
-		//wp_enqueue_style('fauna-one-font', 'http://fonts.googleapis.com/css?family=Fauna+One');
-		//wp_enqueue_style('noto-serif-font', 'http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic');
-		//wp_enqueue_style('raleway-font', ''http://fonts.googleapis.com/css?family=Raleway:400,600');
-		wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
+		//
 		#@TODO: create hook so user only needs to add to an array with ?family= ?
 	}
 	
@@ -234,5 +250,6 @@ function flagship_rebuild_minify_stylesheets() {
 ## add_action and add_filter hooks
 add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_styles') );
 add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_scripts') );
+add_action( 'wp_enqueue_scripts', array('EnqueueHandler', 'enqueue_fonts') );
 add_action( 'admin_enqueue_scripts', array('EnqueueHandler', 'enqueue_admin'));
 ?>
