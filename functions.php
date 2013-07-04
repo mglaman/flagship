@@ -210,7 +210,7 @@ class Flagship {
 	 */
 	public static function create_framework_menu_page() {
 		add_menu_page('Dashboard', 'Flagship', 'edit_theme_options', 'flagship', array('Flagship', 'get_admin_dashboard_page'), get_template_directory_uri().'/images/menu-icon-dashboard.png', '61');
-			add_submenu_page('flagship', 'Settings', 'Advanced Settings', 'edit_theme_options', 'fs-settings', array('Flagship', 'get_admin_settings_page'));
+			add_submenu_page('flagship', 'Settings', 'Settings', 'edit_theme_options', 'fs-settings', array('Flagship', 'get_admin_settings_page'));
 			add_submenu_page('flagship', 'Theme Building', 'Theme Building', 'manage_options', 'fs-theme-building', array('Flagship', 'get_admin_theme_building_page'));
 
 		add_theme_page('Flagship Zones', 'Zones', 'edit_theme_options', 'fs-zones', array('Flagship', 'get_admin_zones_page'));
@@ -223,7 +223,7 @@ class Flagship {
 		require(FLAGSHIP_INC_PATH.'/admin/theme-building.php');
 	}
 	public static function get_admin_settings_page() {
-		require(FLAGSHIP_INC_PATH.'/admin/advanced.settings.php');
+		require(FLAGSHIP_INC_PATH.'/admin/settings.php');
 	}
 	public static function get_admin_zones_page() {
 		require(FLAGSHIP_INC_PATH.'/admin/zones.php');

@@ -1,4 +1,6 @@
 <?php
+wp_enqueue_script('postbox');
+
 $theme_variables = Flagship::get_theme_variables();
 if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables = Flagship::get_theme_variables(true);
@@ -13,17 +15,20 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 <!--<pre><?php global $wp_registered_widgets; print_r($wp_registered_widgets); ?></pre>-->
 <h2>Flagship Settings</h2>
 <form method="post" action=""> 
+<div id="poststuff">
 	<div class="metabox-holder">
-		<div class="flagship-left-column post-box-container">
+		<div class="flagship-left-column post-box-container ">
 			<?php settings_fields( 'flagship' ); ?>
-			<section id="seo" class="postbox seo">
+			<section id="seo" class="seo ui-sortable">
+				<div class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle fancy-title"><span>Search Engine Optimization</span></h3>
+				<h3 class="hndle fancy-title"><span>SEO &amp; Webmaster Tools</span></h3>
 				<div class="inside">
 					<table class="form-table">
 						<tbody>
 							<tr align="top">
-								<th scope="row"><label>Canonical (Preferred) Domain</label></th>
+								<th scope="row"><label>Canonical (Preferred) Domain</label>
+									<p style="font-size: 85%; font-style: italic;">Currently doesn't work, needs further development.</p></th>
 								<td>
 									<?php $stripped_domain = str_replace('http://', '', home_url()); ?>
 									<p><label class="radio"><input type="radio" value="<?php echo $stripped_domain ?>" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], $stripped_domain); ?>/> <?php echo $stripped_domain ?></label></p>
@@ -47,8 +52,10 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 						</tbody>
 					</table>
 				</div>
+				</div>
 			</section> 
-			<section id="four-oh-four" class="postbox four-oh-four">
+			<section id="four-oh-four" class="four-oh-four ui-sortable">
+				<div class="postbox closed">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle fancy-title"><span>404 Error Page</span></h3>
 				<div class="inside">
@@ -69,8 +76,10 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 						</table>
 					</div>
 				</div>
+				</div>
 			</section> 
-			<section id="widgets" class="postbox widgets">
+			<section id="widgets" class="widgets ui-sortable">
+				<div class="postbox closed">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle fancy-title"><span>Widget Preferences</span></h3>
 				<div class="inside">
@@ -85,7 +94,16 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 						</div>
 					</div>
 				</div>
+				</div>
 			</section> 
 <?php submit_button(); ?>
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready( function($) { 
+             postboxes.add_postbox_toggles(pagenow);
+        });
+    //]]>
+</script>
 </form>
+</div>
 </div>
