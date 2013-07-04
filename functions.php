@@ -172,10 +172,8 @@ class Flagship {
 		return $area_zone_array;
 	}
 
-	protected static function load_theme_variables() {
-		//@NOTE: Commenting out below forces theme to load config.json versus database values, which in turn saves new config!
-		# @TODO: Create option to force refresh from config.json
-		$theme_variables = get_option('flagship');
+	protected static function load_theme_variables($override = false) {
+		$theme_variables = (!$override) ? get_option('flagship') : array();
 
 		//Lets make sure we didn't get an empty response.
 		if(empty($theme_variables)) {
