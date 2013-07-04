@@ -82,9 +82,7 @@ function flagship_display_excerpt() {
 		$display = is_search();
 	}
 	//Allow child themes to override the final decision
-	apply_filters('flagship_display_excerpt', $display);
-
-	return $display;
+	return apply_filters('flagship_display_excerpt', $display);
 }
 
 add_filter('excerpt_more', 'flagship_excerpt_more_filter');

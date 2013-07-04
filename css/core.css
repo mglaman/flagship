@@ -155,3 +155,8 @@ object  {
 #primary-menu .sub-menu {
 	display: none;
 }
+
+/** WordPress Galleries **/
+div.gallery[class*="columns"] {
+	float: inherit;
+}

@@ -252,7 +252,7 @@ ol.inline > li {
 .entry-content img { 
 	border-radius: 3px;
 }
-.wp-caption .wp-caption-text, .entry-caption {
+.wp-caption .wp-caption-text, .entry-caption, .gallery-caption {
 	font-style: italic;
 	font-size: 12px;
 	line-height: 2;
