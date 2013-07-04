@@ -28,7 +28,6 @@ require(FLAGSHIP_INC_PATH . '/template.handler.php');
 require(FLAGSHIP_INC_PATH . '/enqueue.handler.php');
 require(FLAGSHIP_INC_PATH . '/widgets.handler.php');
 require(FLAGSHIP_INC_PATH . '/zones.handler.php');
-require(FLAGSHIP_INC_PATH . '/theme.hooks.php');
 
 //If the theme switched, we want to wipe any Flagship data so the child theme's config can be used.
 add_action('switch_theme', array('Flagship', 'remove_current_config'));
@@ -37,6 +36,7 @@ add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
 add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
 add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
 add_action( 'wp_head', array('Flagship', 'hook_wp_head'));
+
 if( !is_admin() ) {
 	add_action( 'admin_bar_menu', array('Flagship', 'toolbar_zones_menu_item'), 999 );
 }
@@ -73,6 +73,11 @@ class Flagship {
 
 		//Loads our widget extender plugin.
 		WidgetsHandler::initialize();
+		//Load our widgets
+		#@TODO: Enable/Disable through settings.
+		#@TODO: Migrate into widgets handler? Or keep widgets handler strictly to manipulting widget functionality.
+		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Child_Pages.php');
+        		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Site_Title.php');
 
 		//Theme support
 		add_theme_support( 'post-thumbnails' );
@@ -81,19 +86,18 @@ class Flagship {
 			'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 		) );
 
+		//Allows admin to re-build stylesheet from front.
 		if(is_user_logged_in() && current_user_can('manage_options') && isset($_GET['fs-rebuild'])) {
 			flagship_rebuild_minify_stylesheets();
 		}
 
+		//Removes generator meta tag, that way bots don't know what version of WordPress we're rockin'
 		add_filter('the_generator', create_function( '', 'return "";' ) );
 
 		//Adds first, last, middle classes to navigation menus along with other tweaks.
 		add_filter('wp_nav_menu_objects', array('Flagship','modify_menus'));
 
-		//Load our widgets
-		#@TODO: Enable/Disable through settings.
-		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Child_Pages.php');
-        require(FLAGSHIP_DIR_PATH.'/widgets/FS_Site_Title.php');
+		
 	}
 
 	/**

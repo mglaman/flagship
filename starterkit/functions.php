@@ -5,7 +5,22 @@
  * @package Flagship
  * @since Flagship 0.2
  */
-add_action('flagship_add_enqueue_styles', 'flagship_child_enqueue_styles', 0, 1);
+
+//Load default theme hooks.
+#@todo: Find cleaner way to do this. If hooks file added to system in parent theme, child theme cannot remove_action as they have not yet been called.
+require(get_template_directory() . '/includes/theme.hooks.php');
+
+/**
+ * Theme functions
+ * - Organize your child theme by placing theme specific functions in this section
+ */
+
+
+/**
+ * Flagship hooks
+ * - Organize your child theme by modifying the Flagship Framework hooks in this section
+ */
+add_action('flagship_add_enqueue_styles', 'flagship_child_enqueue_styles', 10, 1);
 
 function flagship_child_enqueue_styles( &$styles_array ) {
 	
@@ -15,4 +30,8 @@ function flagship_child_enqueue_styles( &$styles_array ) {
 	);
 	return $styles_array;
 }
+
+/**
+ * WordPress hooks
+ */
 ?>
