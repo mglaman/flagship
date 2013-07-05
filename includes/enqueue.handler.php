@@ -71,18 +71,18 @@ class EnqueueHandler {
 		
 		//Check if we have our minified stylesheets
 		if(file_exists(FLAGSHIP_DIR_PATH.'/css/flagship.min.css')) {
-			wp_enqueue_style('flagship.min',  FLAGSHIP_CSS_PATH. '/flagship.min.css', false, false);
+			wp_enqueue_style('flagship.min',  FLAGSHIP_CSS_PATH. '/flagship.min.css', false, null);
 		} else {
 			//Try to build minified stylsheets and enqueue them.
 			if(self::build_minified_styles()) {
-				wp_enqueue_style('flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, false);
+				wp_enqueue_style('flagship.min', FLAGSHIP_URL_PATH . '/flagship.min.css', false, null);
 			} else {
 				if(!isset(self::$styles) || empty(self::$styles))
 					self::gather_styles();
 				//We're having issues, load raw stylesheet files.
 				foreach(self::$styles as $stylesheet => $attr) {
 					$location = ($attr['location'] == 'core') ? FLAGSHIP_CSS_PATH : get_stylesheet_directory_uri().'/css';
-					wp_enqueue_style($attr['handle'], $location . '/' . $stylesheet, false, false);
+					wp_enqueue_style($attr['handle'], $location . '/' . $stylesheet, false, null);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ class EnqueueHandler {
 		
 		foreach(self::$scripts as $javascripts => $args) {
 			#@TODO: Fix up like styles, child theme cannot hook into this.
-			wp_enqueue_script($args['handle'], FLAGSHIP_JS_PATH . '/' . $javascripts, $args['deps'], $args['ver']);
+			wp_enqueue_script($args['handle'], FLAGSHIP_JS_PATH . '/' . $javascripts, $args['deps'], null);
 			
 			//If we have a conditional load.
 			if(isset($args['condition']) && !empty($args['conditions']))
@@ -133,7 +133,7 @@ class EnqueueHandler {
 				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Raleway\"</style> ". PHP_EOL;' ) );
 			break;
 			case 'open-sans':
-				wp_enqueue('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
+				wp_enqueue_style('google.opensans.font', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600');
 				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Open Sans\"</style> ". PHP_EOL;' ) );
 			break;
 		}
