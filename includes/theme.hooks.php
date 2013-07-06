@@ -59,7 +59,8 @@ function flagship_content_after_content() {
 //Executes before <footer>
 add_action('flagship_content_before_footer', 'flagship_content_before_footer', 10);
 function flagship_content_before_footer() {
-	comments_template( '', true );
+	if(is_single())
+		comments_template( '', true );
 }
 //Executes within footer
 add_action('flagship_content_footer', 'flagship_content_footer', 10);

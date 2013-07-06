@@ -81,10 +81,8 @@ class Flagship {
 
 		//Theme support
 		add_theme_support( 'post-thumbnails' );
-		add_theme_support( 'automatic-feed-links' ); #@TODO: Include by default, add option to disable
-		add_theme_support( 'post-formats', array( #@TODO: Enable/Disable from settings
-			'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
-		) );
+		add_theme_support( 'automatic-feed-links' ); #@TODO: Include by default, add option to disable. But where?!
+		add_theme_support( 'post-formats', self::$theme_options['post_formats']);
 
 		//Allows admin to re-build stylesheet from front.
 		if(is_user_logged_in() && current_user_can('manage_options') && isset($_GET['fs-rebuild'])) {

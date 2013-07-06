@@ -10,6 +10,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 	$theme_variables['google_font'] = $_POST['flagship']['google_font'];
 	$theme_variables['exerpt_display'] = $_POST['flagship']['exerpt_display'];
 	$theme_variables['excerpt_read_more'] = $_POST['flagship']['excerpt_read_more'];
+	$theme_variables['post_formats'] = $_POST['flagship']['post_formats'];
 	Flagship::update_flagship_options($theme_variables);
 }
 ?>
@@ -29,7 +30,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 				<div class="inside">
 					<table class="form-table">
 						<tbody>
-							<tr align="top">
+							<!--<tr align="top">
 								<th scope="row"><label>Canonical (Preferred) Domain</label>
 									<p style="font-size: 85%; font-style: italic;">Currently doesn't work, needs further development.</p></th>
 								<td>
@@ -37,10 +38,10 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 									<p><label class="radio"><input type="radio" value="<?php echo $stripped_domain ?>" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], $stripped_domain); ?>/> <?php echo $stripped_domain ?></label></p>
 									<p><label class="radio"><input type="radio" value="www.<?php echo $stripped_domain ?>" name="flagship[seo][force_www]" <?php checked($theme_variables['seo']['force_www'], 'www.'.$stripped_domain); ?>/> www.<?php echo $stripped_domain ?></label></p>
 								</td>
-							</tr>
+							</tr>-->
 							<tr align="top" class="webmaster-tools">
 								<th scope="row"><label for="google_verify">Google Verify Code:</label></th>
-								<td><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></p></td>
+								<td><input type="text" id="google_verify" name="flagship[seo][google_verify]" value="<?php echo $theme_variables['seo']['google_verify'] ?>" /></td>
 							</tr>
 							<tr align="top" class="webmaster-tools">
 								<th scope="row"><label for="bing_verify">Bing Verify Code:</label></th>
@@ -150,7 +151,25 @@ if(isset($_POST['action']) && $_POST['action'] == 'update') {
 							</li>
 						</ul>
 						<p><label for="excerpt_read_more">Change "read more" link text on trimmed post excerpts.</a></p>
-						<input type="text" name="flagship[excerpt_read_more]" id="excerpt_read_more" value="<?php echo $theme_variables['excerpt_read_more']; ?>"  class="widefat"/>
+						<input type="text" name="flagship[excerpt_read_more]" id="excerpt_read_more" value="<?php echo $theme_variables['excerpt_read_more']; ?>"  class="widefat" placeholder="Read More"/>
+					</div>
+				</div>
+			</div>
+			<div class="inside meta-box-sortables ui-sortable">
+				<div class="postbox">
+					<div class="handlediv" title="Click to toggle"><br></div>
+					<h3 class="hndle fancy-title"><span>Post Format Options</span></h3>
+					<div class="inside">
+						<p>Choose which post formats you would like enabled.</p>
+						<ul>
+						<?php $formats = array('aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video');
+							foreach($formats as $post_format) : ?>
+							<li><label class="checkbox">
+								<input type="checkbox" value="<?php echo $post_format; ?>" name="flagship[post_formats][<?php echo $post_format; ?>]" <?php checked($theme_variables['post_formats'][$post_format], $post_format); ?> />
+								 <?php echo $post_format; ?></label>
+							</li>
+						<?php endforeach; ?>
+						</ul>
 					</div>
 				</div>
 			</div>

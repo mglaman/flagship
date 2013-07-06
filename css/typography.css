@@ -182,7 +182,6 @@ pre {
 	line-height: 1.4;
 	word-break: break-all;
 	word-wrap: break-word;
-	white-space: pre;
 	white-space: pre-wrap;
 }
 p {
@@ -248,7 +247,9 @@ ol.inline > li {
 }
 
 /** Entry Formatting **/
-.entry-title {
+.entry-title,
+.entry-content,
+.entry-summary {
 	-ms-word-wrap: break-word;
 	word-wrap: break-word;
 }
