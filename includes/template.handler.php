@@ -60,10 +60,20 @@ function flagship_zone_end_wrapper() {
 	<?php endif;
 }
 
+function flagship_zone_before_hook() {
+	$zone = Flagship::$current_zone;
+	do_action("flagship_before_".$zone);
+}
+
 function flagship_zone_widgets() {
 	if(dynamic_sidebar( Flagship::$current_zone ))
 		return true;
 	return false;
+}
+
+function flagship_zone_after_hook() {
+	$zone = Flagship::$current_zone;
+	do_action("flagship_after_".$zone);
 }
  
 /** Misc Functions **/

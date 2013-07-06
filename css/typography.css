@@ -118,6 +118,7 @@ center,
 
 /** Tables **/
 table {
+	width: 100%;
 	max-width: 100%;
 	background-color: transparent;
 	border-collapse: collapse;
