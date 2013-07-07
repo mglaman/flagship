@@ -140,8 +140,20 @@ function flagship_primary_navigation() {
 		'menu_id'=> 'primary-menu',
 		'echo'=> true
 	);
-	do_action('flagship_alter_navigation_args', $defaults);
+	$defaults = apply_filters('flagship_alter_navigation_args', $defaults);
 	wp_nav_menu( $defaults );
+}
+
+/**
+* Default callback to use comment entry template
+* Sets global $comment
+* Sets two globals so that our template can know our comment arguments
+*/
+function flagship_comment_entry_template($comment, $args, $depth) {
+	$GLOBALS['comment'] = $comment;
+	$GLOBALS['fs_comment_args'] = $args;
+	$GLOBALS['fs_comment_depth'] = $depth;
+	get_template_part('templates/other/comment', 'entry');
 }
 
 /**
