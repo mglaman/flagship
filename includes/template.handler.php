@@ -75,6 +75,18 @@ function flagship_zone_after_hook() {
 	$zone = Flagship::$current_zone;
 	do_action("flagship_after_".$zone);
 }
+
+/**
+ * Checks to see if a filter was applied to override default loop template
+ * Allows plugins to hook into theme.
+ */
+function flagship_loop_template() {
+	if($hooked = apply_filters( 'flagship_'.flagship_current_view().'_template',  false)) {
+		require $hooked;
+	} else {
+		get_template_part('templates/loop/loop', flagship_current_view());
+	}
+}
  
 /** Misc Functions **/
 function flagship_display_excerpt() {
@@ -166,6 +178,9 @@ function flagship_current_view() {
 	if(function_exists('is_woocommerce') && is_woocommerce()) {
 		return 'woocommerce';
 	}
+	if( $hooked = apply_filters('flagship_current_view', false) ) {
+		return $hooked;
+	}
 
 	# WordPress Conditionals
 	if( is_home() ) {
@@ -214,6 +229,25 @@ function flagship_current_view() {
 	else {
 		return 'index';
 	}
+}
+
+//Returns an array of each hook within the content template. That way a plugin can wipe and restyle without templating
+function flagship_content_hooks() {
+	$hooks = array(
+		'flagship_content_before_header',
+		'flagship_content_before_title',
+		'flagship_content_title',
+		'flagship_content_after_title',
+		'flagship_content_after_header',
+		'flagship_content_before_excerpt',
+		'flagship_content_after_excerpt',
+		'flagship_content_before_content',
+		'flagship_content_after_content',
+		'flagship_content_before_footer',
+		'flagship_content_footer',
+		'flagship_content_after_footer'
+		);
+	return $hooks;
 }
 
 ?>
