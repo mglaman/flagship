@@ -3,7 +3,9 @@
  * A bunch of goodness.
  *
  * @package Flagship
+ * @author Matt Glaman @link http://glamanate.com
  * @since Flagship 0.1
+ * @version 0.4
  */
 
  define("FLAGSHIP_DEBUG", TRUE);
@@ -31,11 +33,8 @@ require(FLAGSHIP_INC_PATH . '/zones.handler.php');
 
 //If the theme switched, we want to wipe any Flagship data so the child theme's config can be used.
 add_action('switch_theme', array('Flagship', 'remove_current_config'));
-
+//Initializes our framework
 add_action( 'after_setup_theme', array('Flagship', 'launch_theme') );
-add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
-add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
-add_action( 'wp_head', array('Flagship', 'hook_wp_head'));
 
 if( !is_admin() ) {
 	add_action( 'admin_bar_menu', array('Flagship', 'toolbar_zones_menu_item'), 999 );
@@ -65,6 +64,11 @@ class Flagship {
 		//Register our navigation menu
 		register_nav_menu( 'primary', 'Main Navigation' );
 
+		//Actions & Filters
+		add_action( 'admin_menu', array('Flagship', 'create_framework_menu_page'));
+		add_action('mod_rewrite_rules', array('Flagship', 'modify_rewrite_rules'));
+		add_action( 'wp_head', array('Flagship', 'hook_wp_head'));
+
 		//Adds our canonical htaccess rule.
 		if(isset(self::$theme_options['seo']['force_www']) && !empty(self::$theme_options['seo']['force_www'])) {
 			# @TODO: Fix this. Throwing 500
@@ -75,7 +79,6 @@ class Flagship {
 		WidgetsHandler::initialize();
 		//Load our widgets
 		#@TODO: Enable/Disable through settings.
-		#@TODO: Migrate into widgets handler? Or keep widgets handler strictly to manipulting widget functionality.
 		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Child_Pages.php');
         		require(FLAGSHIP_DIR_PATH.'/widgets/FS_Site_Title.php');
 
@@ -115,20 +118,18 @@ class Flagship {
 		echo '<!-- End Flagship Theme Framework -->' .PHP_EOL;
 	}
 
+	/**
+	* Adds first and last classes to WordPress menu list items for easier theming.
+	*/
 	public static function modify_menus($items) {
-		$home_id = get_option('page_for_posts');
-
-	    $items[1]->classes[] = 'first';
-	    $items[count($items)]->classes[] = 'last';
-
-		// foreach($items as &	$post_item) {
-			// if($post_item->object_id == $home_id && ( 'post' == get_post_type() || is_category() ))
-				// $post_item->classes[] = 'current-page-ancestor';
-		// }
-
-	    return $items;
+		$items[1]->classes[] = 'first';
+		$items[count($items)]->classes[] = 'last';
+		return $items;
 	}
 
+	/**
+	* Gets theme variables theme variables, allows override to pull fresh values
+	*/
 	public static function get_theme_variables($refresh = false) {
 		if($refresh)
 			self::launch_theme();
@@ -170,6 +171,10 @@ class Flagship {
 		return $area_zone_array;
 	}
 
+	/**
+	* Used to load variables from database or config file.
+	* Check if WordPress option is set, or override is true to decide where to grab data from
+	*/
 	protected static function load_theme_variables($override = false) {
 		$theme_variables = (!$override) ? get_option('flagship') : array();
 
@@ -196,6 +201,9 @@ class Flagship {
 		self::$theme_options = $theme_variables;
 	}
 
+	/**
+	* Updates framework options and resets class cache of options
+	*/
 	public static function update_flagship_options($theme_variables) {
 		update_option('flagship', $theme_variables);
 		Flagship::get_theme_variables(true);
@@ -252,6 +260,7 @@ class Flagship {
 
 	/**
 	 * Hooks into rewrite rules.
+	 * Adds https://github.com/sergeychernyshev/.htaccess
 	 */
 	 public static function modify_rewrite_rules( $rules ) {
 	 	/*$force_preferred =
@@ -463,6 +472,9 @@ FileETag None
 		return $new_rules;
 	 }
 
+	 /**
+	 * Adds Zones and Navigation menu items to WordPress admin toolbar dropdown.
+	 */
 	 public static function toolbar_zones_menu_item( $wp_admin_bar ) {
 		  $args = array(
 		    'id' => 'zones',

@@ -51,6 +51,7 @@ class EnqueueHandler {
 				'deps'		=> array('jquery'),
 				'ver'		=> '1.2'
 			),
+			//WordPress doesn't handle script conditionals like stylesheets :(
 			//'html5shiv.js' => array(
 			//	'handle'	=> 'html5shiv',
 			//	'deps'		=> null,
@@ -137,8 +138,6 @@ class EnqueueHandler {
 				add_action('wp_head', create_function( '', 'echo "<style type=\"text/css\"> html,body { font-family: \"Open Sans\"</style> ". PHP_EOL;' ) );
 			break;
 		}
-		#@TODO: There wil be a form to pick and choose which fonts to enable/disable and add to list. Right now it's static
-		//
 		#@TODO: create hook so user only needs to add to an array with ?family= ?
 	}
 	
