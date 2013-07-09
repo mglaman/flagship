@@ -1,6 +1,6 @@
 <?php
 /**
- * The main template file.
+ * The main template file for wooCommerce integration.
  *
  * @package Flagship
  * @since Flagship 0.1
