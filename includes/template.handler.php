@@ -80,11 +80,31 @@ function flagship_zone_after_hook() {
  * Checks to see if a filter was applied to override default loop template
  * Allows plugins to hook into theme.
  */
+#@TODO: 2 Notices, Notice: Array to string conversion in and the loop_template[2]
 function flagship_loop_template() {
 	if($hooked = apply_filters( 'flagship_'.flagship_current_view().'_template',  false)) {
 		require $hooked;
 	} else {
-		get_template_part('templates/loop/loop', flagship_current_view());
+		$loop_template = flagship_current_view();
+		$templates = array(
+			'templates/loop/'.$loop_template[0].'-'.$loop_template[1].'.php',
+			'templates/loop/'.$loop_template[0].'.php',
+			'templates/loop/loop.php',
+			);
+		locate_template($templates, true, false);
+	}
+}
+/**
+ * Checks for content template, if default post type uses post format, else post type, or plugin hook
+*/
+function flagship_content_template() {
+	if($hooked = apply_filters( 'flagship_'.get_post_type().'_template',  false)) {
+		require $hooked;
+	} else {
+		if('post' == get_post_type())
+			get_template_part( 'templates/content/content', get_post_format() ); 
+		else
+			get_template_part( 'templates/content/content', get_post_type() ); 
 	}
 }
  
@@ -174,42 +194,42 @@ function flagship_comment_entry_template($comment, $args, $depth) {
 function flagship_current_view() {
 	global $post, $wp_query;
 
-	#Plugin specific routing
-	if(function_exists('is_woocommerce') && is_woocommerce()) {
-		return 'woocommerce';
-	}
+	#Plugin specific routing, be sure to format array(major, minor);
 	if( $hooked = apply_filters('flagship_current_view', false) ) {
 		return $hooked;
+	}
+	if(function_exists('is_woocommerce') && is_woocommerce()) {
+		return array('woocommerce');
 	}
 
 	# WordPress Conditionals
 	if( is_home() ) {
-		return 'blog';
+		return array('blog');
 	}
 	elseif( is_category() ) {
-		//Ex filename: templates/loop/loop-category-slug.php
+		//Ex filename: templates/loop/category-slug.php
 		$term = $wp_query->query_vars['category_name'];
-		return 'category-'.$term;
+		return array('category', $term);
 	}
 	elseif( is_tag() ) {
-		//Ex filename: templates/loop/loop-tag-slug.php
+		//Ex filename: templates/loop/tag-slug.php
 		$tag = $wp_query->query_vars['tag'];
-		return 'tag-'.$tag;
+		return array('tag', $tag);
 	}
 	elseif( is_tax() ) {
-		//Ex filename: templates/loop/loop-taxonomy-slug.php
+		//Ex filename: templates/loop/taxonomy-slug.php
 		$tax = $wp_query->query_vars['taxonomy'];
-		return 'taxonomy-'.$tax;
+		return array('taxonomy',$tax);
 	}
 	elseif( is_author() ) {
-		//Ex filename: templates/loop/loop-author-username.php
+		//Ex filename: templates/loop/author-username.php
 		$author = $wp_query->query_vars['author_name'];
-		return 'author-'.$author;
+		return array('author',$author);
 	}
 	elseif( is_archive() ) {
 		//Ex filename: templates/loop/loop-archive-post-type.php
 		$post_type = get_post_type($post->ID);
-		return 'archive-'.$post_type;
+		return array('archive', $post_type);
 	}
 	elseif( is_attachment() ) {
 		return 'attachment';

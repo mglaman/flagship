@@ -23,7 +23,7 @@ do_action('flagship_before_loop');
 ?>
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); ?>
-		<?php get_template_part( 'templates/content/content', get_post_format() ); ?>
+		<?php flagship_content_template(); ?>
 	<?php endwhile; ?>
 <?php endif; 
 
