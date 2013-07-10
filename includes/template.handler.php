@@ -80,17 +80,18 @@ function flagship_zone_after_hook() {
  * Checks to see if a filter was applied to override default loop template
  * Allows plugins to hook into theme.
  */
-#@TODO: 2 Notices, Notice: Array to string conversion in and the loop_template[2]
 function flagship_loop_template() {
 	if($hooked = apply_filters( 'flagship_'.flagship_current_view().'_template',  false)) {
 		require $hooked;
 	} else {
-		$loop_template = flagship_current_view();
-		$templates = array(
-			'templates/loop/'.$loop_template[0].'-'.$loop_template[1].'.php',
-			'templates/loop/'.$loop_template[0].'.php',
-			'templates/loop/loop.php',
-			);
+		$loop_template = (array) flagship_current_view();
+
+		$templates = array();
+		if(isset($loop_template[1]))
+			$templates[] = 'templates/loop/'.$loop_template[0].'-'.$loop_template[1].'.php';
+		$templates[] = 'templates/loop/'.$loop_template[0].'.php';
+		$templates[] = 'templates/loop/loop.php';
+
 		locate_template($templates, true, false);
 	}
 }
@@ -199,12 +200,12 @@ function flagship_current_view() {
 		return $hooked;
 	}
 	if(function_exists('is_woocommerce') && is_woocommerce()) {
-		return array('woocommerce');
+		return 'woocommerce';
 	}
 
 	# WordPress Conditionals
 	if( is_home() ) {
-		return array('blog');
+		return 'blog';
 	}
 	elseif( is_category() ) {
 		//Ex filename: templates/loop/category-slug.php
