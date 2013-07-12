@@ -81,19 +81,28 @@ function flagship_zone_after_hook() {
  * Allows plugins to hook into theme.
  */
 function flagship_loop_template() {
-	if($hooked = apply_filters( 'flagship_'.flagship_current_view().'_template',  false)) {
-		require $hooked;
-	} else {
-		$loop_template = (array) flagship_current_view();
+	$loop_template = (array) flagship_current_view();
 
-		$templates = array();
-		if(isset($loop_template[1]))
-			$templates[] = 'templates/loop/'.$loop_template[0].'-'.$loop_template[1].'.php';
-		$templates[] = 'templates/loop/'.$loop_template[0].'.php';
-		$templates[] = 'templates/loop/loop.php';
-
-		locate_template($templates, true, false);
+	//Check filters
+	$filters = array();
+	if(isset($loop_template[1]))
+		$filters[] = $loop_template[0].'-'.$loop_template[1];
+	$filters[] = $loop_template[0];
+	$filters[] = 'loop';
+	foreach($filters as $filter) {
+		if($hooked = apply_filters( 'flagship_'.$filter.'_template',  false)) {
+			require $hooked;
+			return;
+		}
 	}
+	//Check templates
+	$templates = array();
+	if(isset($loop_template[1]))
+		$templates[] = 'templates/loop/'.$loop_template[0].'-'.$loop_template[1].'.php';
+	$templates[] = 'templates/loop/'.$loop_template[0].'.php';
+	$templates[] = 'templates/loop/loop.php';
+
+	locate_template($templates, true, false);
 }
 /**
  * Checks for content template, if default post type uses post format, else post type, or plugin hook
@@ -105,7 +114,7 @@ function flagship_content_template() {
 		if('post' == get_post_type())
 			get_template_part( 'templates/content/content', get_post_format() ); 
 		else
-			get_template_part( 'templates/content/content', get_post_type() ); 
+			locate_template( array('templates/content/'.get_post_type().'.php', 'templates/content/content.php'), true, false);
 	}
 }
  
