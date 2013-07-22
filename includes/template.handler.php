@@ -144,7 +144,7 @@ function flagship_excerpt_more_filter() {
 	$string = '.. <a href="'.get_permalink().'" title="'.get_the_title().'" class="excerpt-read-more">';
 	$string .= (!empty($theme_variables['excerpt_read_more'])) ? $theme_variables['excerpt_read_more'] : 'Read More';
 	$string .= '</a>';
-	return $string;
+	return apply_filters('flagship_excerpt_more_string', $string);
 }
 
 
