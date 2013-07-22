@@ -38,7 +38,9 @@ class ZoneHandler {
 	
 	public static function get_attributes() {
 		$zone = Flagship::$current_zone;
-		$columns = flagship_zone_columns();
+		//Allows you to override column width for contextual design.
+		#@TODO: Make function called get_current_zone() for checks, for now use Flagship::$current_zone
+		$columns = apply_filters('flagship_zone_columns_override', flagship_zone_columns());
 		$classes = (flagship_zone_extra_classes() 	!= '') ? flagship_zone_extra_classes() : '';
 		$left	 = (flagship_zone_left() != '0' && flagship_zone_left() != '') ? 'left-' . flagship_zone_left() : '';
 		$right	 = (flagship_zone_right() != '0' && flagship_zone_right() != '') ? 'right-' . flagship_zone_right() : '';
