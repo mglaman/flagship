@@ -245,10 +245,12 @@ function flagship_current_view() {
 		return 'attachment';
 	}
 	elseif( is_page() ) {
-		return 'page';
+		$slug = get_post()->post_name;
+		return array($slug, 'page');
 	}
 	elseif( is_single() ) {
-		return 'single';
+		$slug = get_post()->post_name;
+		return array($slug, 'single');
 	}
 	elseif( is_search() ) {
 		return 'search';
