@@ -86,6 +86,7 @@
 	}
 	#primary-menu {
 		max-height: none !important;
+		overflow: inherit;
 	}
 	#primary-menu.inline > li {
 		display: inline-block;

@@ -108,11 +108,19 @@ img {
 }
 	#primary-menu > li {
 		display: block;
+		position: relative;
 	}
 ul.primary.menu {
 	list-style: none;
 	margin: 0;
 }
+#primary-menu .sub-menu {
+	display: none;
+	list-style: none;
+}
+ #primary-menu.opened li .sub-menu {
+ 	display: none !important;
+ }
 
 /* Responsive Images & Embeds */
 .widget img,
@@ -148,12 +156,6 @@ object  {
 /** Content areas **/
 #loop-pages {
 	clear: both;
-}
-
-
-/** Navigation **/
-#primary-menu .sub-menu {
-	display: none;
 }
 
 /** WordPress Galleries **/

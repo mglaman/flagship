@@ -10,5 +10,8 @@
     			maxHeight: displayHeight
     		});
 		});
+            $('#primary-menu li').has("ul").hover( function() { 
+                $(this).addClass('sub-menu-open').children("ul").show(); }, function() { $(this).removeClass('sub-menu-open').children("ul").hide(); 
+            });
     });
 })(jQuery);
