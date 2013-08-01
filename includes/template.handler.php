@@ -114,7 +114,19 @@ function flagship_content_template() {
 		if('post' == get_post_type())
 			get_template_part( 'templates/content/content', get_post_format() ); 
 		else
-			locate_template( array('templates/content/'.get_post_type().'.php', 'templates/content/content.php'), true, false);
+			$content_template = (array) flagship_current_view();
+
+			//print_r($loop_template);
+
+			$templates = array();
+			if(isset($content_template[1]))
+				$templates[] = 'templates/content/'.$content_template[0].'-'.$content_template[1].'.php';
+			$templates[] = 'templates/content/'.$content_template[0].'.php';
+			$templates[] = 'templates/content/content.php';
+
+			//print_r($templates);
+
+			locate_template($templates, true, false);
 	}
 }
  
@@ -246,11 +258,11 @@ function flagship_current_view() {
 	}
 	elseif( is_page() ) {
 		$slug = get_post()->post_name;
-		return array($slug, 'page');
+		return array('page', $slug);
 	}
 	elseif( is_single() ) {
 		$slug = get_post()->post_name;
-		return array($slug, 'single');
+		return array('single', $slug);
 	}
 	elseif( is_search() ) {
 		return 'search';

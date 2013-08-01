@@ -11,7 +11,7 @@
     		});
 		});
             $('#primary-menu li').has("ul").hover( function() { 
-                $(this).addClass('sub-menu-open').children("ul").show(); }, function() { $(this).removeClass('sub-menu-open').children("ul").hide(); 
+                $(this).addClass('sub-menu-open').children("ul").fadeIn(400); }, function() { $(this).removeClass('sub-menu-open').children("ul").fadeOut(400); 
             });
     });
 })(jQuery);
