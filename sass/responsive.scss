@@ -1,0 +1,27 @@
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "components/**/*";
+
+.grid-container {
+  margin: 0 auto;
+  @include clearfix();
+}
+
+@include breakpoint($tab, true) {
+  .grid-container {
+    width: 90%;
+  }
+  // Generates styles
+  @for $i from 1 to ($grid-count + 1) {
+    .columns-#{$i} {
+      @include grid-span($i, 1);
+      @include clearfix();
+    }
+  }
+}
+@include breakpoint($desk, true) {
+  .grid-container {
+    width: 85%;
+  }
+}

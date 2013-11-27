@@ -1,0 +1,12 @@
+$tab: 44em;
+$desk: 70em;
+$grid-count: 16;
+
+$grids: $grid-count;
+$gutters: 2em;
+$gutter-styles: 'split' 'fixed';
+$output: 'float';
+
+$grids: add-grid(16 at $tab);
+
+$container-offset: -($gutters / 2);
