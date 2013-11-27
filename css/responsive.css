@@ -1,215 +1,308 @@
-/**
- * Let's get device friendly, mobile first design.
- *
- * @package Flagship
- */
-
-/*==========================
- * Base structural styling, mobile phones only.
- * ===========================================
- */
-[class*="columns"] {
-  position: relative;
-  margin-left: 10px;
-  margin-right: 10px;
-}
 .grid-container {
-	margin-left: auto;
-	margin-right: auto;
-}
+  margin: 0 auto;
+  /* for IE 6/7 */
+  *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+  /* non-JS fallback */
+  *zoom: 1; }
+  .grid-container:before, .grid-container:after {
+    content: ".";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .grid-container:after {
+    clear: both; }
 
-/*==========================
- * Styles to catch phones in landscape mode and tablets in portrait mode; generally.
- * ===========================================
- */
-@media (min-width: 740px) and (min-device-width: 740px) {
-	[class*="columns"] {
-		display: inline;
-		float: left;
-	}
-	body {
-		min-width: 720px;
-	}
-	.grid-container {
-		width: 720px;
-	}
-	.columns-1  { width: 25px; }
-	.columns-2  { width: 70px; }
-	.columns-3  { width: 115px;}
-	.columns-4  { width: 160px;}
-	.columns-5  { width: 205px;}
-	.columns-6  { width: 250px;}
-	.columns-7  { width: 295px;}
-	.columns-8  { width: 340px;}
-	.columns-9  { width: 385px;}
-	.columns-10 { width: 430px;}
-	.columns-11 { width: 475px;}
-	.columns-12 { width: 520px;}
-	.columns-13 { width: 565px;}
-	.columns-14 { width: 610px;}
-	.columns-15 { width: 655px;}
-	.columns-16 { width: 700px;}
-	
-	.left-1  { padding-left: 45px; }
-	.left-2  { padding-left: 90px; }
-	.left-3  { padding-left: 135px; }
-	.left-4  { padding-left: 180px; }
-	.left-5  { padding-left: 225px; }
-	.left-6  { padding-left: 270px; }
-	.left-7  { padding-left: 315px; }
-	.left-8  { padding-left: 360px; }
-	.left-9  { padding-left: 405px; }
-	.left-10 { padding-left: 450px; }
-	.left-11 { padding-left: 495px; }
-	.left-12 { padding-left: 540px; }
-	.left-13 { padding-left: 585px; }
-	.left-14 { padding-left: 630px; }
-	.left-15 { padding-left: 675px; }
-	.right-1  { padding-right: 45px; }
-	.right-2  { padding-right: 90px; }
-	.right-3  { padding-right: 135px; }
-	.right-4  { padding-right: 180px; }
-	.right-5  { padding-right: 225px; }
-	.right-6  { padding-right: 270px; }
-	.right-7  { padding-right: 315px; }
-	.right-8  { padding-right: 360px; }
-	.right-9  { padding-right: 405px; }
-	.right-10 { padding-right: 450px; }
-	.right-11 { padding-right: 495px; }
-	.right-12 { padding-right: 540px; }
-	.right-13 { padding-right: 585px; }
-	.right-14 { padding-right: 630px; }
-	.right-15 { padding-right: 675px; }
-	
-	#nav-toggle {
-		display: none;
-	}
-	#primary-menu {
-		max-height: none !important;
-		overflow: inherit;
-	}
-	#primary-menu.inline > li {
-		display: inline-block;
-	}
-}
+@media (min-width: 44em) {
+  .grid-container {
+    width: 90%; }
 
-/*==========================
- * Regular layout, 960px. Older desktops and tablets in landscape mode.
- * ===========================================
- */
-@media (min-width: 980px) and (min-device-width: 980px) {
-	body {
-		min-width: 960px;
-	}
-	.grid-container {
-		width: 960px;
-	}
-	.columns-1  { width: 40px; }
-	.columns-2  { width: 100px; }
-	.columns-3  { width: 160px;}
-	.columns-4  { width: 220px;}
-	.columns-5  { width: 280px;}
-	.columns-6  { width: 340px;}
-	.columns-7  { width: 400px;}
-	.columns-8  { width: 460px;}
-	.columns-9  { width: 520px;}
-	.columns-10 { width: 580px;}
-	.columns-11 { width: 640px;}
-	.columns-12 { width: 700px;}
-	.columns-13 { width: 760px;}
-	.columns-14 { width: 820px;}
-	.columns-15 { width: 880px;}
-	.columns-16 { width: 940px;}
-	
-	.left-1  { padding-left: 60px; }
-	.left-2  { padding-left: 120px; }
-	.left-3  { padding-left: 180px; }
-	.left-4  { padding-left: 240px; }
-	.left-5  { padding-left: 300px; }
-	.left-6  { padding-left: 360px; }
-	.left-7  { padding-left: 420px; }
-	.left-8  { padding-left: 480px; }
-	.left-9  { padding-left: 540px; }
-	.left-10 { padding-left: 600px; }
-	.left-11 { padding-left: 660px; }
-	.left-12 { padding-left: 720px; }
-	.left-13 { padding-left: 780px; }
-	.left-14 { padding-left: 840px; }
-	.left-15 { padding-left: 900px; }
-	.right-1  { padding-right: 60px; }
-	.right-2  { padding-right: 120px; }
-	.right-3  { padding-right: 180px; }
-	.right-4  { padding-right: 240px; }
-	.right-5  { padding-right: 300px; }
-	.right-6  { padding-right: 360px; }
-	.right-7  { padding-right: 420px; }
-	.right-8  { padding-right: 480px; }
-	.right-9  { padding-right: 540px; }
-	.right-10 { padding-right: 600px; }
-	.right-11 { padding-right: 660px; }
-	.right-12 { padding-right: 720px; }
-	.right-13 { padding-right: 780px; }
-	.right-14 { padding-right: 840px; }
-	.right-15 { padding-right: 900px; }
-}
+  .columns-1 {
+    width: 6.25%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-1:before, .columns-1:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-1:after {
+      clear: both; }
 
+  .columns-2 {
+    width: 12.5%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-2:before, .columns-2:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-2:after {
+      clear: both; }
 
-/*==========================
- * Wide layout for larger screens.
- * ===========================================
- */
-@media (min-width: 1200px) {
-	body {
-		min-width: 1200px;
-	}
-	.grid-container {
-		width: 1200px;
-	}
-	.columns-1  { width: 55px; }
-	.columns-2  { width: 130px; }
-	.columns-3  { width: 205px;}
-	.columns-4  { width: 280px;}
-	.columns-5  { width: 355px;}
-	.columns-6  { width: 430px;}
-	.columns-7  { width: 505px;}
-	.columns-8  { width: 580px;}
-	.columns-9  { width: 655px;}
-	.columns-10 { width: 730px;}
-	.columns-11 { width: 805px;}
-	.columns-12 { width: 880px;}
-	.columns-13 { width: 955px;}
-	.columns-14 { width: 1030px;}
-	.columns-15 { width: 1105px;}
-	.columns-16 { width: 1180px;}
-	
-	.left-1  { padding-left: 75px; }
-	.left-2  { padding-left: 150px; }
-	.left-3  { padding-left: 225px; }
-	.left-4  { padding-left: 300px; }
-	.left-5  { padding-left: 375px; }
-	.left-6  { padding-left: 450px; }
-	.left-7  { padding-left: 525px; }
-	.left-8  { padding-left: 600px; }
-	.left-9  { padding-left: 675px; }
-	.left-10 { padding-left: 750px; }
-	.left-11 { padding-left: 825px; }
-	.left-12 { padding-left: 900px; }
-	.left-13 { padding-left: 975px; }
-	.left-14 { padding-left: 1050px; }
-	.left-15 { padding-left: 1125px; }
-	.right-1  { padding-right: 75px; }
-	.right-2  { padding-right: 150px; }
-	.right-3  { padding-right: 225px; }
-	.right-4  { padding-right: 300px; }
-	.right-5  { padding-right: 375px; }
-	.right-6  { padding-right: 450px; }
-	.right-7  { padding-right: 525px; }
-	.right-8  { padding-right: 600px; }
-	.right-9  { padding-right: 675px; }
-	.right-10 { padding-right: 750px; }
-	.right-11 { padding-right: 825px; }
-	.right-12 { padding-right: 900px; }
-	.right-13 { padding-right: 975px; }
-	.right-14 { padding-right: 1050px; }
-	.right-15 { padding-right: 1125px; }
-}
+  .columns-3 {
+    width: 18.75%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-3:before, .columns-3:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-3:after {
+      clear: both; }
+
+  .columns-4 {
+    width: 25%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-4:before, .columns-4:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-4:after {
+      clear: both; }
+
+  .columns-5 {
+    width: 31.25%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-5:before, .columns-5:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-5:after {
+      clear: both; }
+
+  .columns-6 {
+    width: 37.5%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-6:before, .columns-6:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-6:after {
+      clear: both; }
+
+  .columns-7 {
+    width: 43.75%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-7:before, .columns-7:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-7:after {
+      clear: both; }
+
+  .columns-8 {
+    width: 50%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-8:before, .columns-8:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-8:after {
+      clear: both; }
+
+  .columns-9 {
+    width: 56.25%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-9:before, .columns-9:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-9:after {
+      clear: both; }
+
+  .columns-10 {
+    width: 62.5%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-10:before, .columns-10:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-10:after {
+      clear: both; }
+
+  .columns-11 {
+    width: 68.75%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-11:before, .columns-11:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-11:after {
+      clear: both; }
+
+  .columns-12 {
+    width: 75%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-12:before, .columns-12:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-12:after {
+      clear: both; }
+
+  .columns-13 {
+    width: 81.25%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-13:before, .columns-13:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-13:after {
+      clear: both; }
+
+  .columns-14 {
+    width: 87.5%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-14:before, .columns-14:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-14:after {
+      clear: both; }
+
+  .columns-15 {
+    width: 93.75%;
+    clear: right;
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-15:before, .columns-15:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-15:after {
+      clear: both; }
+
+  .columns-16 {
+    width: 100%;
+    clear: right;
+    float: right;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* for IE 6/7 */
+    *zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).style.cssText="clear:both;font:0/0 serif");
+    /* non-JS fallback */
+    *zoom: 1; }
+    .columns-16:before, .columns-16:after {
+      content: ".";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .columns-16:after {
+      clear: both; } }
+@media (min-width: 70em) {
+  .grid-container {
+    width: 85%; } }
