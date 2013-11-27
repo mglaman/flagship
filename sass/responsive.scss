@@ -1,7 +1,7 @@
 @import "compass";
 @import "breakpoint";
 @import "singularitygs";
-@import "components/**/*";
+@import "components/_grid.scss";
 
 .grid-container {
   margin: 0 auto;

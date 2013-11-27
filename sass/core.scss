@@ -3,4 +3,7 @@
 @import "breakpoint";
 @import "singularitygs";
 @import "toolkit-no-css";
-@import "components/**/*"
+@import "components/_variables.scss";
+@import "components/_typography.scss";
+@import "components/_forms.scss";
+@import "components/_tables.scss";

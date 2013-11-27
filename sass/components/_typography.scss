@@ -1,0 +1,30 @@
+html {
+  font-size: $base-font-size;
+  @include establish-baseline($base-font-size);
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   @include rhythm(0, 0, 0, 0.18);
+}
+
+p {
+   @include rhythm(0, 0, 0, .35);
+}
+
+blockquote {
+  margin: 0;
+  @include rhythm(0, 1, 1, 1);
+  font-style: italic;
+}
